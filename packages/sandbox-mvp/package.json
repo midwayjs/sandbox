@@ -1,12 +1,12 @@
 {
   "name": "sandbox-mvp",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "MVP version of sandbox",
   "dependencies": {
     "chrome-devtools-frontend": "^1.0.590489",
     "egg-view-nunjucks": "^2.2.0",
     "midway": "^0.3.7",
-    "sandbox-core": "^1.0.0"
+    "sandbox-core": "^0.0.1"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
