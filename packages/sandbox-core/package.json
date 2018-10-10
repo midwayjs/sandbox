@@ -37,7 +37,7 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "lint": "tslint --fix -p .",
-    "build": "tnpm run lint && rm -rf ./dist && tsc",
+    "build": "npm run lint && rm -rf ./dist && tsc",
     "test": "midway-bin test --ts"
   },
   "files": [
