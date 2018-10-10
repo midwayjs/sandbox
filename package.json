@@ -1,0 +1,11 @@
+{
+  "name": "sandbox",
+  "private": true,
+  "devDependencies": {
+    "git-hooks": "^1.1.10",
+    "lerna": "^3.4.0"
+  },
+  "scripts": {
+    "build": "lerna run build"
+  }
+}

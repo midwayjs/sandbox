@@ -1,0 +1,43 @@
+{
+  "name": "sandbox-mvp",
+  "version": "1.0.0",
+  "description": "MVP version of sandbox",
+  "dependencies": {
+    "chrome-devtools-frontend": "^1.0.590489",
+    "egg-view-nunjucks": "^2.2.0",
+    "midway": "^0.3.7",
+    "sandbox-core": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.5.5",
+    "midway-bin": "^0.3.2",
+    "midway-mock": "^0.3.7",
+    "ts-node": "^7.0.0",
+    "tslib": "^1.8.1",
+    "tslint": "^5.9.1",
+    "typescript": "^2.8.0",
+    "webstorm-disable-index": "^1.2.0"
+  },
+  "engines": {
+    "install-alinode": "3.11.7"
+  },
+  "scripts": {
+    "start": "NODE_ENV=local midway-bin dev --ts",
+    "start_build": "npm run build && NODE_ENV=local midway-bin dev",
+    "debug": "NODE_ENV=local midway-bin debug --ts",
+    "test": "npm run lint -- --fix && midway-bin test --ts",
+    "cov": "midway-bin cov --ts",
+    "lint": "tslint -c tslint.json --project .",
+    "ci": "midway-bin cov --ts",
+    "build": "midway-bin build -c"
+  },
+  "ci": {
+    "version": "8, 9"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "MIT"
+}
