@@ -13,6 +13,6 @@ export default [
     traceName: 'HTTP-GET:/',
     focus: 1,
     deleted: 0,
-    hash: '01c4cc3afcb7bf950c8153c33b13735d'
+    hash: '01c4cc3afcb7bf950c8153c33b13735d',
   },
-]
+];

@@ -16,6 +16,6 @@ export default {
     database: 'sandbox',
   },
   pandora: {
-    restfulPort: 3010
-  }
+    restfulPort: 3010,
+  },
 };

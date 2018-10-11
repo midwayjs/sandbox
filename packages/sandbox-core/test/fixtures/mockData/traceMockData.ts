@@ -32,5 +32,5 @@ export default [
     pid: 4928,
     traceName: 'HTTP-GET:/products',
     traceStatus: 1,
-  }
-]
+  },
+];

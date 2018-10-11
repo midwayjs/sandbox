@@ -15,7 +15,7 @@ describe('traceServiceTest', async () => {
 
   it('listFocusTraces', async () => {
     const traceService = await getInstance('traceService');
-    let res = await traceService.listFocusTraces({
+    const res = await traceService.listFocusTraces({
       scope: 'test',
       scopeName: 'sandbox-test',
     });
@@ -24,7 +24,7 @@ describe('traceServiceTest', async () => {
 
   it('listTraces', async () => {
     const traceService = await getInstance('traceService');
-    let res = await traceService.listTraces({
+    const res = await traceService.listTraces({
       startTime: new Date('2018-09-28 01:00:00'),
       endTime: new Date('2018-09-28 01:30:00'),
       scope: 'test',
@@ -38,17 +38,17 @@ describe('traceServiceTest', async () => {
     await keyTraceModel.destroy({
       where: {
         traceName: {
-          [Op.in]: keyTraceMockData.map(kt => kt.traceName),
-        }
-      }
+          [Op.in]: keyTraceMockData.map((kt) => kt.traceName),
+        },
+      },
     });
     const traceModel = await getInstance('traceModel');
     await traceModel.destroy({
       where: {
         uuid: {
-          [Op.in]: traceMockData.map(tr => tr.uuid),
-        }
-      }
+          [Op.in]: traceMockData.map((tr) => tr.uuid),
+        },
+      },
     });
   });
 

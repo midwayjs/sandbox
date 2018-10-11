@@ -11,12 +11,12 @@ export default [
     errorStack: `at emitOne (events.js:116:13)
     at Client.emit (events.js:211:7)
     at emitTwo (events.js:126:13)
-    at Request.emit (events.js:214:7)`, 
-    unixTimestamp: 1537374847,  
+    at Request.emit (events.js:214:7)`,
+    unixTimestamp: 1537374847,
     logPath: '/home/admin/logs/common-error.log',
-    errorMessage: 'something wrong',  
-    version: '1',  
-    traceId: '483d9c50-c303-11e8-a355-529269fb1459',  
+    errorMessage: 'something wrong',
+    version: '1',
+    traceId: '483d9c50-c303-11e8-a355-529269fb1459',
     pid: '72813',
   },
   {
@@ -31,12 +31,12 @@ export default [
     errorStack: `at emitOne (events.js:116:13)
     at Client.emit (events.js:211:7)
     at emitTwo (events.js:126:13)
-    at Request.emit (events.js:214:7)`, 
-    unixTimestamp: 1537374848,  
+    at Request.emit (events.js:214:7)`,
+    unixTimestamp: 1537374848,
     logPath: '/home/admin/logs/common-error.log',
-    errorMessage: 'something wrong',  
-    version: '1',  
-    traceId: '67e51f41-a0fc-4a48-9113-cf0372259515',  
+    errorMessage: 'something wrong',
+    version: '1',
+    traceId: '67e51f41-a0fc-4a48-9113-cf0372259515',
     pid: '72803',
   },
   {
@@ -51,12 +51,12 @@ export default [
     errorStack: `at emitOne (events.js:116:13)
     at Client.emit (events.js:211:7)
     at emitTwo (events.js:126:13)
-    at Request.emit (events.js:214:7)`, 
-    unixTimestamp: 1537374929,  
+    at Request.emit (events.js:214:7)`,
+    unixTimestamp: 1537374929,
     logPath: '/home/admin/logs/app-fatal.log',
-    errorMessage: 'something wrong',  
-    version: '1',  
-    traceId: '802ad679-7403-4f24-97b2-eaa81f3605f9',  
+    errorMessage: 'something wrong',
+    version: '1',
+    traceId: '802ad679-7403-4f24-97b2-eaa81f3605f9',
     pid: '72803',
-  }
-]
+  },
+];
