@@ -13,7 +13,7 @@
     "mysql2": "^1.5.3",
     "sequelize": "^4.39.0",
     "urllib": "^2.29.0",
-    "ws": "^6.0.0"
+    "ws": "^1.1.5"
   },
   "devDependencies": {
     "@types/chai": "^4.1.4",

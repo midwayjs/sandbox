@@ -36,12 +36,12 @@ export class DebugServer extends EventEmitter {
 
     try {
 
-      const url = request.url;
+      const upgradeReq = socket.upgradeReq;
+      const url = upgradeReq.url;
       if (!url.startsWith('/remoteDebug')) {
         socket.terminate();
         return;
       }
-
       socket.pause();
       const query = QueryString.parse(Url.parse(url).query);
       const tokenRaw: string = query.token as any;
