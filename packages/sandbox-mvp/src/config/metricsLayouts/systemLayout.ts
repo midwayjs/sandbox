@@ -40,10 +40,10 @@ export const systemLayout = [
         indicators: [
           {
             aggregator: 'avg',
-            metric: 'system.tsar.cpu',
+            metric: 'system.cpu.usage',
             title: 'CPU 使用率',
             type: 'percent',
-            normalizedValue: false,
+            normalizedValue: true,
           },
         ],
       },
@@ -52,10 +52,10 @@ export const systemLayout = [
         indicators: [
           {
             aggregator: 'avg',
-            metric: 'system.tsar.mem',
+            metric: 'system.mem.usage',
             title: '内存使用率',
             type: 'percent',
-            normalizedValue: false,
+            normalizedValue: true,
           },
         ],
       },
@@ -64,10 +64,10 @@ export const systemLayout = [
         indicators: [
           {
             aggregator: 'avg',
-            metric: 'system.tsar.df',
+            metric: 'system.disk.partition.used_ratio',
             title: '磁盘占用率',
             type: 'percent',
-            normalizedValue: false,
+            normalizedValue: true,
           },
         ],
       },
@@ -77,7 +77,7 @@ export const systemLayout = [
           {
             type: 'number',
             aggregator: 'sum',
-            metric: 'system.tsar.ifin',
+            metric: 'system.nettraffic.eth0.net.in.bytes',
             unit: 'Bytes/ms',
             title: 'eth0 流入',
           },
@@ -89,7 +89,7 @@ export const systemLayout = [
           {
             type: 'number',
             aggregator: 'sum',
-            metric: 'system.tsar.ifout',
+            metric: 'system.nettraffic.eth0.net.out.bytes',
             unit: 'Bytes/ms',
             title: 'eth0 流出',
           },
@@ -101,7 +101,7 @@ export const systemLayout = [
           {
             type: 'number',
             aggregator: 'sum',
-            metric: 'system.tsar.pktin',
+            metric: 'system.nettraffic.eth0.net.in.packets',
             unit: '',
             title: '入包',
           },
@@ -113,7 +113,7 @@ export const systemLayout = [
           {
             type: 'number',
             aggregator: 'sum',
-            metric: 'system.tsar.pktout',
+            metric: 'system.nettraffic.eth0.net.out.packets',
             unit: '',
             title: '出包',
           },
@@ -124,7 +124,7 @@ export const systemLayout = [
         indicators: [
           {
             aggregator: 'avg',
-            metric: 'system.tsar.tcp_retry',
+            metric: 'system.tcp.retry.rate',
             title: '重试率',
             type: 'percent',
             normalizedValue: false,

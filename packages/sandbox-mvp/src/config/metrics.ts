@@ -15,13 +15,15 @@ export const coreMetrics = {
   },
   memUsage: {
     aggregator: 'avg',
-    metric: 'system.tsar.mem',
+    metric: 'system.mem.usage',
     affix: '%',
+    normalizedValue: true,
   },
   diskUsage: {
     aggregator: 'avg',
-    metric: 'system.tsar.df',
+    metric: 'system.disk.partition.used_ratio',
     affix: '%',
+    normalizedValue: true,
   },
   qps: {
     aggregator: 'sum',

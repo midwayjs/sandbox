@@ -47,21 +47,18 @@ export const focusLayout = [{
           aggregator: 'avg',
           metric: 'system.load.1min',
           title: 'Load 1',
-
           type: 'number',
         },
         {
           aggregator: 'avg',
           metric: 'system.load.5min',
           title: 'Load 5',
-
           type: 'number',
         },
         {
           aggregator: 'avg',
           metric: 'system.load.15min',
           title: 'Load 15',
-
           type: 'number',
         },
       ],
@@ -73,7 +70,6 @@ export const focusLayout = [{
           aggregator: 'sum',
           metric: 'error.all.bucket_count',
           title: '错误数量',
-
           type: 'number',
           unit: '条',
         },
@@ -84,11 +80,10 @@ export const focusLayout = [{
       indicators: [
         {
           aggregator: 'avg',
-          metric: 'system.tsar.cpu',
+          metric: 'system.cpu.usage',
           title: 'CPU 使用率',
-
           type: 'percent',
-          normalizedValue: false,
+          normalizedValue: true,
         },
       ],
     },
@@ -97,11 +92,10 @@ export const focusLayout = [{
       indicators: [
         {
           aggregator: 'avg',
-          metric: 'system.tsar.mem',
+          metric: 'system.mem.usage',
           title: '内存使用率',
-
           type: 'percent',
-          normalizedValue: false,
+          normalizedValue: true,
         },
       ],
     },
@@ -110,11 +104,10 @@ export const focusLayout = [{
       indicators: [
         {
           aggregator: 'avg',
-          metric: 'system.tsar.df',
+          metric: 'system.disk.partition.used_ratio',
           title: '磁盘占用率',
-
           type: 'percent',
-          normalizedValue: false,
+          normalizedValue: true,
         },
       ],
     },
@@ -126,7 +119,7 @@ export const focusLayout = [{
         {
           type: 'number',
           aggregator: 'sum',
-          metric: 'system.tsar.ifin',
+          metric: 'system.nettraffic.eth0.net.in.bytes',
           unit: 'Bytes/ms',
 
           title: 'eth0 流入',
@@ -134,7 +127,7 @@ export const focusLayout = [{
         {
           type: 'number',
           aggregator: 'sum',
-          metric: 'system.tsar.ifout',
+          metric: 'system.nettraffic.eth0.net.out.bytes',
           unit: 'Bytes/ms',
 
           title: 'eth0 流出',
@@ -146,7 +139,7 @@ export const focusLayout = [{
       indicators: [
         {
           aggregator: 'avg',
-          metric: 'system.tsar.tcp_retry',
+          metric: 'system.tcp.retry.rate',
           title: '重试率',
 
           type: 'percent',
