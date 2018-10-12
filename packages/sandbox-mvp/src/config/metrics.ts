@@ -5,8 +5,9 @@ import {focusLayout} from './metricsLayouts/focusLayout';
 export const coreMetrics = {
   cpuUsage: {
     aggregator: 'avg',
-    metric: 'system.tsar.cpu',
+    metric: 'system.cpu.usage',
     affix: '%',
+    normalizedValue: true,
   },
   load1: {
     aggregator: 'avg',
