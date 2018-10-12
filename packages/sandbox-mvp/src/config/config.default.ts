@@ -14,7 +14,7 @@ module.exports = appInfo => {
   };
 
   config.pandora = {
-    restfulPort: 9081
+    restfulPort: 7002
   };
 
   config.tsdb = {
