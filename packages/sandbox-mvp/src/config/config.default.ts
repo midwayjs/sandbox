@@ -22,7 +22,7 @@ module.exports = appInfo => {
     port: 4242
   };
 
-  config.histore = {
+  config.dw = {
     host: process.env.UNDER_DOCKER ? 'mariadb-columnstore' : '127.0.0.1',
     port: 3306,
     username: 'sandbox',
@@ -30,7 +30,7 @@ module.exports = appInfo => {
     database: 'column_sandbox',
   };
 
-  config.mysql = {
+  config.coreDB = {
     host: process.env.UNDER_DOCKER ? 'mariadb-columnstore' : '127.0.0.1',
     port: 3306,
     username: 'sandbox',
@@ -86,11 +86,11 @@ module.exports = appInfo => {
   };
 
   config.customLogger = {
-    historeLogger: {
-      file: path.join(appInfo.root, `logs/sandbox-datasource-histore.log`)
+    dwLogger: {
+      file: path.join(appInfo.root, `logs/sandbox-datasource-dw.log`)
     },
-    mysqlLogger: {
-      file: path.join(appInfo.root, `logs/sandbox-datasource-mysql.log`)
+    coreDBLogger: {
+      file: path.join(appInfo.root, `logs/sandbox-datasource-coredb.log`)
     }
   };
 
