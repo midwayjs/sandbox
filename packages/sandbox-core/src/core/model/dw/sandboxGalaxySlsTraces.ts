@@ -41,65 +41,39 @@ export async function factory(context: IApplicationContext) {
       type: Sequelize.TEXT,
       field: 'trace_name',
     },
+    traceSpans: {
+      type: Sequelize.TEXT,
+      field: 'trace_spans',
+    },
     traceId: {
       type: Sequelize.STRING(256),
       field: 'trace_id',
+    },
+    traceDuration: {
+      type: Sequelize.INTEGER,
+      field: 'trace_duration',
+    },
+    traceStatus: {
+      type: Sequelize.INTEGER,
+      field: 'trace_status',
+      defaultValue: 1,
     },
     uuid: {
       type: Sequelize.STRING(256),
       allowNull: false,
     },
-    spanName: {
-      type: Sequelize.STRING(512),
-      field: 'span_name',
+    unixTimestamp: {
+      type: Sequelize.BIGINT,
+      field: 'unix_timestamp',
     },
-    spanTimestamp: {
-      type: Sequelize.STRING(128),
-      field: 'span_timestamp',
-    },
-    spanDuration: {
+    version: {
       type: Sequelize.INTEGER,
-      field: 'span_duration',
-    },
-    spanError: {
-      type: Sequelize.INTEGER(4),
-      allowNull: true,
-      defaultValue: 0,
-      field: 'span_error',
-    },
-    spanType: {
-      type: Sequelize.INTEGER,
-      field: 'span_type',
-    },
-    spanMethod: {
-      type: Sequelize.STRING(128),
-      field: 'span_method',
-    },
-    spanTarget: {
-      type: Sequelize.TEXT,
-      field: 'span_target',
-    },
-    spanCode: {
-      type: Sequelize.STRING(128),
-      field: 'span_code',
-    },
-    spanTags: {
-      type: Sequelize.TEXT,
-      field: 'span_tags',
-    },
-    spanId: {
-      type: Sequelize.STRING(128),
-      field: 'span_id',
-    },
-    spanRpcId: {
-      type: Sequelize.STRING(128),
-      field: 'span_rpcid',
     },
   }, {
     timestamps: false,
     underscored: false,
     freezeTableName: true,
-    tableName: 'sandbox_galaxy_sls_trace_nodes',
+    tableName: 'sandbox_galaxy_sls_traces',
   });
 
   SLSTraceModel.removeAttribute('id');
