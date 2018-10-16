@@ -121,6 +121,7 @@ export class ErrorManager {
       attributes: [['log_path', 'path']],
       where: { [Sequelize.Op.and]: required },
       group: ['path'],
+      raw: true,
     };
     return this.errorModel.findAll(conditions);
   }
@@ -133,20 +134,23 @@ export class ErrorManager {
       ],
       where: { [Sequelize.Op.and]: required },
       group: ['errType'],
+      raw: true,
     };
     return this.errorModel.findAll(conditions);
   }
 
   private findErrorTypeDist(required: object[]) {
+    const downSampling = Sequelize.literal('(unix_timestamp - unix_timestamp % 60)');
     const conditions: SearchCondition = {
       attributes: [
         ['error_type', 'errType'],
         [Sequelize.fn('COUNT', Sequelize.literal('*')), 'cnt'],
-        [Sequelize.literal('(unix_timestamp - unix_timestamp % 60)'), 'timestamp'],
+        [downSampling, 'timestamp'],
       ],
       where: { [Sequelize.Op.and]: required },
-      group: ['timestamp', 'errType'],
+      group: [downSampling, 'errType'],
       order: [['timestamp', 'DESC']],
+      raw: true,
     };
     return this.errorModel.findAll(conditions);
   }
