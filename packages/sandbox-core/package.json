@@ -38,7 +38,8 @@
     "prepublishOnly": "npm run build",
     "lint": "tslint --fix -p .",
     "build": "npm run lint && rm -rf ./dist && tsc",
-    "test": "midway-bin test --ts"
+    "test": "midway-bin test --ts",
+    "cov": "midway-bin cov --ts"
   },
   "files": [
     "dist",

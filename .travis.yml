@@ -9,7 +9,7 @@ install:
   - npm i
   - npm i codecov
 before_script:
-  - lerna bootstrap --no-ci
-  - lerna run build
+  - npm run bootstrap
+  - npm run build
 script:
   - npm run cov
