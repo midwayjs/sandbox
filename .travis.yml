@@ -1,10 +1,12 @@
 language: node_js
-services:
-  - mysql
 node_js:
   - "8"
   - "9"
   - "10"
+services:
+  - mysql
+before_install:
+  - sudo mysql < ./packages/sandbox-core/test/fixtures/sql/initDB.sql 2>&1
 install:
   - npm i
   - npm i codecov
