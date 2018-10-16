@@ -6,6 +6,8 @@
     "lerna": "^3.4.0"
   },
   "scripts": {
-    "build": "lerna run build"
+    "bootstrap": "lerna bootstrap --no-ci",
+    "build": "lerna run build",
+    "cov": "lerna run cov"
   }
 }
