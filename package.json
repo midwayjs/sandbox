@@ -6,6 +6,14 @@
     "git-hooks": "^1.1.10",
     "lerna": "^3.4.0"
   },
+  "nyc": {
+    "reporter": [
+      "text",
+      "json",
+      "html",
+      "lcovonly"
+    ]
+  },
   "scripts": {
     "bootstrap": "lerna bootstrap --no-ci",
     "build": "lerna run build",
