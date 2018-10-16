@@ -78,6 +78,7 @@ assembly/
 mocks_data/proxy/**/__*
 tms
 coverage
+.nyc_output
 
 ############################
 # visual studio code settings
