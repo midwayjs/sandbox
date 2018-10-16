@@ -38,6 +38,7 @@ describe('errorServiceTest', () => {
     });
     assert(res[0].length === 2);
     assert(res[1].length === 2);
+
     assert(res[1].some((data) => data.errType === 'RangeError' && data.cnt === 2));
     assert(res[1].some((data) => data.errType === 'ReferenceError' && data.cnt === 1));
     assert(res[2].length === 2);
