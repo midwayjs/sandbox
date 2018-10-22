@@ -22,13 +22,6 @@ describe('applicationServiceTest', () => {
     assert(xor(res.data.map((app) => app.flag), applicationMockData.map((app) => app.flag)).length === 0);
   });
 
-  it('queryGroups', async () => {
-    const appService = await getInstance('applicationService');
-    const res = await appService.queryGroups({ scope: 'test', scopeName: 'sandbox-test' });
-    assert(res);
-    assert(isEqual(res.dev, defaultPlatformHostsMockData.dev));
-  });
-
   it('queryHosts', async () => {
     const appService = await getInstance('applicationService');
     const res = await appService.queryHosts({ env: 'dev', scope: 'test'});
@@ -41,11 +34,39 @@ describe('applicationServiceTest', () => {
     const appService = await getInstance('applicationService');
     const res = await appService.groupUpsert({
       groupName: 'test_group',
-      hostList: [],
+      hostList: [{ip: '10.0.0.1', hostname: 'devServer'}],
       scope: 'test',
       scopeName: 'sandbox-test',
     });
     assert(res === true);
+  });
+
+  it('queryGroups', async () => {
+    const appService = await getInstance('applicationService');
+    const res = await appService.queryGroups({ scope: 'test', scopeName: 'sandbox-test' });
+    assert(res);
+    assert(isEqual(res.dev, defaultPlatformHostsMockData.dev));
+  });
+
+  it('groupUpsert with empty host list', async () => {
+    const appService = await getInstance('applicationService');
+    const res = await appService.groupUpsert({
+      groupName: 'test_group_no_host',
+      hostList: null,
+      scope: 'test',
+      scopeName: 'sandbox-test',
+    });
+    assert(typeof res === 'boolean');
+  });
+
+  it('groupExist', async () => {
+    const appService = await getInstance('applicationService');
+    const res = await appService.groupExist({
+      groupName: 'test_group',
+      scope: 'test',
+      scopeName: 'sandbox-test',
+    });
+    assert(res === 1);
   });
 
   it('groupDelete', async () => {
