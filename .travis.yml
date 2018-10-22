@@ -7,6 +7,7 @@ services:
   - mysql
 before_install:
   - sudo mysql < ./packages/sandbox-core/test/fixtures/sql/initDB.sql 2>&1
+  - export TZ=Asia/Shanghai
 install:
   - npm i
   - npm i codecov
