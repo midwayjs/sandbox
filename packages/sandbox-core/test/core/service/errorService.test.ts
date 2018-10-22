@@ -12,7 +12,7 @@ describe('errorServiceTest', () => {
 
   it('queryErrors', async () => {
     const errorService = await getInstance('errorService');
-    const res = await errorService.queryErrors({
+    const baseOptions = {
       startTime: new Date('2018-09-20 00:00:00'),
       endTime: new Date('2018-09-20 03:00:00'),
       scope: 'test',
@@ -20,9 +20,33 @@ describe('errorServiceTest', () => {
       env: 'dev',
       page: 1,
       pageSize: 10,
-    });
+    };
+    let res = await errorService.queryErrors(baseOptions);
     assert(res.count === 3 && res.rows.length === 3);
     assert(xor(res.rows.map((row) => row.uuid), errorMockData.map((data) => data.uuid)).length === 0);
+
+    res = await errorService.queryErrors({
+      ip: '192.168.1.1',
+      errType: ['RangeError'],
+      keyword: '483d9c50-c303-11e8-a355-529269fb1459',
+      in: 'traceId', ...baseOptions});
+    assert(res.count === 1 && res.rows.length === 1);
+    assert(res.rows[0].traceId === '483d9c50-c303-11e8-a355-529269fb1459');
+
+    res = await errorService.queryErrors({
+      keyword: 'RangeError',
+      in: 'errorType', ...baseOptions});
+    assert(res.count === 2 && res.rows.length === 2);
+    assert(res.rows.every((row) => row.errorType === 'RangeError'));
+
+    res = await errorService.queryErrors({
+      keyword: '192.168.1.2',
+      in: 'machine', ...baseOptions});
+    assert(res.count === 0 && res.rows.length === 0);
+
+    res = await errorService.queryErrors({
+      keyword: 'emitTwo', ...baseOptions});
+    assert(res.count === 3 && res.rows.length === 3);
   });
 
   it('queryErrorTypes', async () => {
