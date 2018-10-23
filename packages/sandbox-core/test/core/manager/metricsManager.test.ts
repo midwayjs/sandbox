@@ -10,7 +10,7 @@ describe('test/core/manager/metricsManager.test.ts', () => {
     const latest = MetricsManager.pickLatestDp({
       123: '123',
       456: '456',
-      1000: 'latest'
+      1000: 'latest',
     });
     assert('latest' === latest);
   });
@@ -19,7 +19,7 @@ describe('test/core/manager/metricsManager.test.ts', () => {
     const metricsManager: MetricsManager = await getInstance('metricsManager');
     const res = await metricsManager.getMetricsNames({
       scope: 'test',
-      scopeName: 'test'
+      scopeName: 'test',
     });
     assert(res.length === 3);
     assert(res[0] === 'cpu');
@@ -41,7 +41,7 @@ describe('test/core/manager/metricsManager.test.ts', () => {
           trend: [
             { time: 1, value: 1 },
             { time: 2, value: 1 },
-          ]
+          ],
         },
         {
           metric: 'testName',
@@ -50,7 +50,7 @@ describe('test/core/manager/metricsManager.test.ts', () => {
           trend: [
             { time: 1, value: 2 },
             { time: 2, value: 2 },
-          ]
+          ],
         },
         {
           metric: 'testName',
@@ -59,7 +59,7 @@ describe('test/core/manager/metricsManager.test.ts', () => {
           trend: [
             { time: 1, value: 3 },
             { time: 2, value: 3 },
-          ]
+          ],
         },
         {
           metric: 'testName',
@@ -68,61 +68,61 @@ describe('test/core/manager/metricsManager.test.ts', () => {
           trend: [
             { time: 1, value: 4 },
             { time: 2, value: 4 },
-          ]
+          ],
         },
-      ]
+      ],
     );
 
     expect(res).to.deep.equal(
       [
         {
-          "metric": "testName",
-          "aggregator": "avg",
-          "frontEndAggregator": "avg",
-          "trend": [
+          metric: 'testName',
+          aggregator: 'avg',
+          frontEndAggregator: 'avg',
+          trend: [
             {
-              "time": 1,
-              "value": 2.5
+              time: 1,
+              value: 2.5,
             },
             {
-              "time": 2,
-              "value": 2.5
-            }
-          ]
+              time: 2,
+              value: 2.5,
+            },
+          ],
         },
         {
-          "metric": "testName",
-          "aggregator": "avg",
-          "hostname": "host-c",
-          "trend": [
+          metric: 'testName',
+          aggregator: 'avg',
+          hostname: 'host-c',
+          trend: [
             {
-              "time": 1,
-              "value": 4
+              time: 1,
+              value: 4,
             },
             {
-              "time": 2,
-              "value": 4
-            }
+              time: 2,
+              value: 4,
+            },
           ],
-          "frontEndAggregator": "highest"
+          frontEndAggregator: 'highest',
         },
         {
-          "metric": "testName",
-          "aggregator": "avg",
-          "hostname": "host-a",
-          "trend": [
+          metric: 'testName',
+          aggregator: 'avg',
+          hostname: 'host-a',
+          trend: [
             {
-              "time": 1,
-              "value": 1
+              time: 1,
+              value: 1,
             },
             {
-              "time": 2,
-              "value": 1
-            }
+              time: 2,
+              value: 1,
+            },
           ],
-          "frontEndAggregator": "lowest"
-        }
-      ]
+          frontEndAggregator: 'lowest',
+        },
+      ],
     );
   });
 
@@ -135,7 +135,7 @@ describe('test/core/manager/metricsManager.test.ts', () => {
         trend: [
           { time: 1, value: 1 },
           { time: 2, value: 1 },
-        ]
+        ],
       },
       {
         metric: 'testName',
@@ -144,7 +144,7 @@ describe('test/core/manager/metricsManager.test.ts', () => {
         trend: [
           { time: 1, value: 2 },
           { time: 2, value: 2 },
-        ]
+        ],
       },
       {
         metric: 'testName',
@@ -153,7 +153,7 @@ describe('test/core/manager/metricsManager.test.ts', () => {
         trend: [
           { time: 1, value: 3 },
           { time: 2, value: 3 },
-        ]
+        ],
       },
       {
         metric: 'testName',
@@ -162,14 +162,14 @@ describe('test/core/manager/metricsManager.test.ts', () => {
         trend: [
           { time: 1, value: 4 },
           { time: 2, value: 4 },
-        ]
+        ],
       },
     ];
     const metricsManager: MetricsManager = await getInstance('metricsManager');
     const res = metricsManager.frontEndAnalyse(
       {analyseHigherLower: false},
       [{ metric: 'testName', aggregator: 'avg' }],
-      input
+      input,
     );
     expect(res).to.be.equal(input);
   });
@@ -182,66 +182,66 @@ describe('test/core/manager/metricsManager.test.ts', () => {
           {
             tags: {
               hostname: 'host-a',
-              ip: '192.168.2.1'
+              ip: '192.168.2.1',
             },
             dps: {
               1: 11,
               2: 12,
               3: 13,
-            }
+            },
           },
           {
             tags: {
               hostname: 'host-b',
-              ip: '192.168.2.2'
+              ip: '192.168.2.2',
             },
             dps: {
               1: 21,
               2: 22,
               3: 23,
-            }
+            },
           },
           {
             tags: {
               hostname: 'host-c',
-              ip: '192.168.2.3'
+              ip: '192.168.2.3',
             },
             dps: {
               1: 31,
               2: 32,
               3: 33,
-            }
+            },
           },
         ];
-      }
+      },
     });
     const res = await metricsManager.getLatestMetricByAppSelectorAndGroupByEachHost(
       {
-        metric: 'testName'
+        metric: 'testName',
       },
       {
         scope: 'test',
-        scopeName: 'test'
-      }
+        scopeName: 'test',
+      },
     );
     expect(res).to.deep.equal(
       [
         {
-          "hostname": "host-a",
-          "ip": "192.168.2.1",
-          "value": 13
+          hostname: 'host-a',
+          ip: '192.168.2.1',
+          value: 13,
         },
         {
-          "hostname": "host-b",
-          "ip": "192.168.2.2",
-          "value": 23
+          hostname: 'host-b',
+          ip: '192.168.2.2',
+          value: 23,
         },
         {
-          "hostname": "host-c",
-          "ip": "192.168.2.3",
-          "value": 33
-        }
-      ]
+          hostname: 'host-c',
+          ip: '192.168.2.3',
+          value: 33,
+        },
+      ],
     );
     mm.restore();
   });

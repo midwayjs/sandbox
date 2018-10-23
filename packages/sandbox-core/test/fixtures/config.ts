@@ -18,6 +18,6 @@ export default {
   },
   tsdb: {
     host: '127.0.0.1',
-    port: 4242
-  }
+    port: 4242,
+  },
 };

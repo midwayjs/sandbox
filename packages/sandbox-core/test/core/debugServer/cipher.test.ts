@@ -1,7 +1,6 @@
 import * as assert from 'assert';
 import { Cipher } from '../../../src/core/debugServer/cipher';
 
-
 describe('/src/core/debugServer/cipher.ts', () => {
 
   it('should throw error when pass null to encrypt', () => {

@@ -17,8 +17,8 @@ describe('applicationCtrltest', async () => {
     const ctx = {
       uid: '1001',
       query: {
-        offset: 0
-      }
+        offset: 0,
+      },
     };
     await applicationCtrl.listByUser(ctx);
     assert((ctx as any).body.success === true);
@@ -33,8 +33,8 @@ describe('applicationCtrltest', async () => {
           hostList: [{ip: '10.0.0.1', hostname: 'devServer'}],
           scope: 'test',
           scopeName: 'sandbox-test',
-        }
-      }
+        },
+      },
     };
     await applicationCtrl.groupUpsert(ctx);
     assert((ctx as any).body);
@@ -47,7 +47,7 @@ describe('applicationCtrltest', async () => {
         groupName: 'test_group',
         scope: 'test',
         scopeName: 'sandbox-test',
-      }
+      },
     };
     await applicationCtrl.groupExist(ctx);
     assert((ctx as any).body);
@@ -61,8 +61,8 @@ describe('applicationCtrltest', async () => {
           groupName: 'test_group',
           scope: 'test',
           scopeName: 'sandbox-test',
-        }
-      }
+        },
+      },
     };
     await applicationCtrl.groupDelete(ctx);
     assert((ctx as any).body);
