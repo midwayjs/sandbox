@@ -16,4 +16,8 @@ export default {
   pandora: {
     restfulPort: 3010,
   },
+  tsdb: {
+    host: '127.0.0.1',
+    port: 4242
+  }
 };
