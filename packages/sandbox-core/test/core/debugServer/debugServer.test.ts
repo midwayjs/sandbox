@@ -1,19 +1,21 @@
 import * as http from 'http';
-import { DebugServer } from '../../../src/core/debugServer/debugServer';
-import * as WebSocket from 'ws';
-import { Cipher } from '../../../src/core/debugServer/cipher';
-import { spawn } from 'child_process';
-import { once } from 'lodash';
 import * as assert from 'assert';
-
+import { spawn } from 'child_process';
+import * as WebSocket from 'ws';
+import { once } from 'lodash';
+import { DebugServer } from '../../../src/core/debugServer/debugServer';
+import { Cipher } from '../../../src/core/debugServer/cipher';
 
 describe('src/core/debugServer/debugServer.ts', () => {
 
-  let debugableProcess, debugServer, token;
+  let debugableProcess;
+  let debugServer;
+  let token;
+  const logger = console;
 
-  before(() => {
+  before(async () => {
     debugableProcess = spawn('node', ['--inspect=5858']);
-    debugableProcess.on('error', console.error);
+    debugableProcess.on('error', logger.error);
 
     const httpServer = http.createServer();
     httpServer.listen(3322);
@@ -21,7 +23,7 @@ describe('src/core/debugServer/debugServer.ts', () => {
     debugServer.start();
 
     token = Cipher.encrypt(JSON.stringify({
-      ip: '127.0.0.1'
+      ip: '127.0.0.1',
     }));
   });
 
@@ -38,7 +40,7 @@ describe('src/core/debugServer/debugServer.ts', () => {
       client.on('close', () => {
         doneOnce();
       });
-      
+
     });
   });
 
@@ -53,9 +55,9 @@ describe('src/core/debugServer/debugServer.ts', () => {
   it('should report a Error: Cannot found any instance', (done) => {
     const mockServer = http.createServer((req, res) => req.pipe(res));
     mockServer.listen(5859);
-    let mockToken = Cipher.encrypt(JSON.stringify({
+    const mockToken = Cipher.encrypt(JSON.stringify({
       ip: '127.0.0.1',
-      debugPort: '5859'
+      debugPort: '5859',
     }));
     const client = new WebSocket('ws://127.0.0.1:3322/remoteDebug?token=' + mockToken);
     client.on('close', () => done());
@@ -68,6 +70,6 @@ describe('src/core/debugServer/debugServer.ts', () => {
 
   after(() => {
     debugableProcess.kill();
-  })
+  });
 
 });

@@ -14,7 +14,7 @@ describe('metricsService.test.ts', () => {
     const metricsService: MetricsService = await getInstance('metricsService');
     const res = await metricsService.getMetricsNames({
       scope: 'test',
-      scopeName: 'test'
+      scopeName: 'test',
     });
     assert(res.length === 3);
     assert(res[0] === 'cpu');
@@ -29,7 +29,7 @@ describe('metricsService.test.ts', () => {
     });
     const res = await metricsService.getCustomMetricsNames({
       scope: 'test',
-      scopeName: 'test'
+      scopeName: 'test',
     });
     expect(res).to.deep.equal(['ok', 'yes', 'custom.xxx']);
   });
@@ -57,38 +57,38 @@ describe('metricsService.test.ts', () => {
             metric: 'testName1',
             query: {
               metric: 'testName1',
-              aggregator: 'avg'
+              aggregator: 'avg',
             },
             dps: {
               1: 11,
               2: 12,
-              3: 13
-            }
+              3: 13,
+            },
           },
           {
             metric: 'testName2',
             query: {
               metric: 'testName2',
-              aggregator: 'avg'
+              aggregator: 'avg',
             },
             dps: {
               1: 21,
               2: 22,
-              3: 23
-            }
+              3: 23,
+            },
           },
-        ]
-      }
+        ];
+      },
     });
     const res = await metricsService.queryMetricsLatest({
       scope: 'test', scopeName: 'test', env: 'test',
       metricsNames: [
         { metric: 'testName1', aggregator: 'avg' },
         { metric: 'testName2', aggregator: 'avg' },
-      ]
+      ],
     });
     expect(res).to.deep.equal(
-      [ { latest: 13 }, { latest: 23 } ]
+      [ { latest: 13 }, { latest: 23 } ],
     );
   });
 
@@ -114,38 +114,38 @@ describe('metricsService.test.ts', () => {
             metric: 'testName1',
             query: {
               metric: 'testName1',
-              aggregator: 'avg'
+              aggregator: 'avg',
             },
             tags: {
               hostname: 'host-a',
               ip: '192.168.1.1',
-              pid: 1
+              pid: 1,
             },
             dps: {
               1: 11,
               2: 12,
-              3: 13
-            }
+              3: 13,
+            },
           },
           {
             metric: 'testName2',
             query: {
               metric: 'testName2',
-              aggregator: 'avg'
+              aggregator: 'avg',
             },
             tags: {
               hostname: 'host-b',
               ip: '192.168.1.2',
-              pid: 2
+              pid: 2,
             },
             dps: {
               1: 21,
               2: 22,
-              3: 23
-            }
+              3: 23,
+            },
           },
-        ]
-      }
+        ];
+      },
     });
     const res = await metricsService.queryMetricsTrend({
       scope: 'test',
@@ -156,51 +156,51 @@ describe('metricsService.test.ts', () => {
       metricsNames: [
         { metric: 'testName1', aggregator: 'avg' },
         { metric: 'testName2', aggregator: 'avg' },
-      ]
+      ],
     });
     expect(res).to.deep.equal([
       {
-        "trend": [
+        trend: [
           {
-            "time": 1,
-            "value": 11
+            time: 1,
+            value: 11,
           },
           {
-            "time": 2,
-            "value": 12
+            time: 2,
+            value: 12,
           },
           {
-            "time": 3,
-            "value": 13
-          }
+            time: 3,
+            value: 13,
+          },
         ],
-        "aggregator": "avg",
-        "metric": "testName1",
-        "hostname": "host-a",
-        "ip": "192.168.1.1",
-        "pid": 1
+        aggregator: 'avg',
+        metric: 'testName1',
+        hostname: 'host-a',
+        ip: '192.168.1.1',
+        pid: 1,
       },
       {
-        "trend": [
+        trend: [
           {
-            "time": 1,
-            "value": 21
+            time: 1,
+            value: 21,
           },
           {
-            "time": 2,
-            "value": 22
+            time: 2,
+            value: 22,
           },
           {
-            "time": 3,
-            "value": 23
-          }
+            time: 3,
+            value: 23,
+          },
         ],
-        "aggregator": "avg",
-        "metric": "testName2",
-        "hostname": "host-b",
-        "ip": "192.168.1.2",
-        "pid": 2
-      }
+        aggregator: 'avg',
+        metric: 'testName2',
+        hostname: 'host-b',
+        ip: '192.168.1.2',
+        pid: 2,
+      },
     ]);
   });
 
@@ -217,49 +217,49 @@ describe('metricsService.test.ts', () => {
         assert(appSelector.env === 'test');
         return [
           {
-            "hostname": "host-a",
-            "ip": "192.168.2.1",
-            "value": 13
+            hostname: 'host-a',
+            ip: '192.168.2.1',
+            value: 13,
           },
           {
-            "hostname": "host-b",
-            "ip": "192.168.2.2",
-            "value": 23
+            hostname: 'host-b',
+            ip: '192.168.2.2',
+            value: 23,
           },
           {
-            "hostname": "host-d",
-            "ip": "192.168.2.4",
-            "value": 43
-          }
-        ]
-      }
+            hostname: 'host-d',
+            ip: '192.168.2.4',
+            value: 43,
+          },
+        ];
+      },
     });
     mm(metricsService, 'applicationService', {
       queryGroups(app) {
         assert(app.scope === 'test');
         assert(app.scopeName === 'test');
         return {
-          'test': [
+          test: [
             {
               name: 'group_1',
               hosts: [
                 {
                   ip: '192.168.2.1',
-                  hostname: 'host-a'
+                  hostname: 'host-a',
                 },
                 {
                   ip: '192.168.2.2',
-                  hostname: 'host-b'
+                  hostname: 'host-b',
                 },
                 {
                   ip: '192.168.2.3',
-                  hostname: 'host-c'
-                }
-              ]
-            }
-          ]
-        }
-      }
+                  hostname: 'host-c',
+                },
+              ],
+            },
+          ],
+        };
+      },
     });
 
     const res = await metricsService.queryHostsMap({
@@ -269,41 +269,39 @@ describe('metricsService.test.ts', () => {
       metricsNames: [
         { metric: 'testName1', aggregator: 'avg' },
         { metric: 'testName2', aggregator: 'avg' },
-      ]
+      ],
     });
 
     expect(res).to.deep.equal([
         {
-          "name": "group_1",
-          "hosts": [
+          name: 'group_1',
+          hosts: [
             {
-              "ip": "192.168.2.1",
-              "hostname": "host-a",
-              "testName1": 13,
-              "testName2": 13
+              ip: '192.168.2.1',
+              hostname: 'host-a',
+              testName1: 13,
+              testName2: 13,
             },
             {
-              "ip": "192.168.2.2",
-              "hostname": "host-b",
-              "testName1": 23,
-              "testName2": 23
+              ip: '192.168.2.2',
+              hostname: 'host-b',
+              testName1: 23,
+              testName2: 23,
             },
             {
-              "ip": "192.168.2.3",
-              "hostname": "host-c"
-            }
-          ]
-        }
-      ]
+              ip: '192.168.2.3',
+              hostname: 'host-c',
+            },
+          ],
+        },
+      ],
     );
 
     expect(calledTimes).to.deep.equal([
       { metric: 'testName1', aggregator: 'avg' },
-      { metric: 'testName2', aggregator: 'avg' }
+      { metric: 'testName2', aggregator: 'avg' },
     ]);
 
   });
 
-
 });
-
