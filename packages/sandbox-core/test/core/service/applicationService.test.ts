@@ -38,7 +38,7 @@ describe('applicationServiceTest', () => {
       scope: 'test',
       scopeName: 'sandbox-test',
     });
-    assert(res === true);
+    assert(typeof res === 'boolean');
   });
 
   it('queryGroups', async () => {
