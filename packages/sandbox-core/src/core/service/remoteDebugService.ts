@@ -14,6 +14,9 @@ export class RemoteDebugService implements IRemoteDebugService {
   @inject('privilegeAdapter')
   privilegeAdapter: IPrivilegeAdapter;
 
+  @inject()
+  cipher: Cipher;
+
   async getDebuggableHost(options: HostSelector & AppSelector & UserSelector): Promise<DebuggableHost> {
     const {scope, scopeName, uid} = options;
     const hasPermission = await this.privilegeAdapter.isAppOps(scope, scopeName, uid);
@@ -22,7 +25,7 @@ export class RemoteDebugService implements IRemoteDebugService {
     }
     const debuggableProcesses = await this.pandoraAdapter.getDebuggableProcesses(options);
     for (const process of debuggableProcesses) {
-      process.token = Cipher.encrypt(JSON.stringify({
+      process.token = this.cipher.encrypt(JSON.stringify({
         debugPort: process.debugPort,
         ip: options.ip,
         webSocketDebuggerUrl: process.webSocketDebuggerUrl,

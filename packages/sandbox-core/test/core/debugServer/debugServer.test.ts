@@ -5,13 +5,15 @@ import * as WebSocket from 'ws';
 import { once } from 'lodash';
 import { DebugServer } from '../../../src/core/debugServer/debugServer';
 import { Cipher } from '../../../src/core/debugServer/cipher';
+import { getInstance } from '../../helper';
 
 describe('src/core/debugServer/debugServer.ts', () => {
 
   let debugableProcess;
-  let debugServer;
+  let debugServer: DebugServer;
   let token;
   const logger = console;
+  let cipher: Cipher;
 
   before(async () => {
     debugableProcess = spawn('node', ['--inspect=5858']);
@@ -19,10 +21,11 @@ describe('src/core/debugServer/debugServer.ts', () => {
 
     const httpServer = http.createServer();
     httpServer.listen(3322);
-    debugServer = new DebugServer(httpServer);
+    debugServer = await getInstance('debugServer');
+    debugServer.setServer(httpServer);
     debugServer.start();
-
-    token = Cipher.encrypt(JSON.stringify({
+    cipher = await getInstance('cipher');
+    token = cipher.encrypt(JSON.stringify({
       ip: '127.0.0.1',
     }));
   });
@@ -55,7 +58,7 @@ describe('src/core/debugServer/debugServer.ts', () => {
   it('should report a Error: Cannot found any instance', (done) => {
     const mockServer = http.createServer((req, res) => req.pipe(res));
     mockServer.listen(5859);
-    const mockToken = Cipher.encrypt(JSON.stringify({
+    const mockToken = cipher.encrypt(JSON.stringify({
       ip: '127.0.0.1',
       debugPort: '5859',
     }));

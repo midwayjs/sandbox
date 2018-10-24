@@ -20,4 +20,7 @@ export default {
     host: '127.0.0.1',
     port: 4242,
   },
+  cipher: {
+    secret: 'midway_sandbox',
+  },
 };
