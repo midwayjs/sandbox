@@ -16,8 +16,8 @@ describe('errorCtrlTest', async () => {
       request: {
         query: {
           scopeName: 'sandbox-test',
-        }
-      }
+        },
+      },
     };
     await errorCtrl.queryErrors(ctx);
     assert((ctx as any).body.success === false);
@@ -30,13 +30,12 @@ describe('errorCtrlTest', async () => {
       request: {
         query: {
           scopeName: 'sandbox-test',
-        }
-      }
+        },
+      },
     };
     await errorCtrl.queryErrorTypes(ctx);
     assert((ctx as any).body.success === true);
   });
-
 
   after(async () => {
     const errorModel = await getInstance('errorModel');
