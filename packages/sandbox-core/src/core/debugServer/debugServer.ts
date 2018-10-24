@@ -5,10 +5,11 @@ import WebSocket = require('ws');
 import {Server as WebSocketServer} from 'ws';
 import urllib = require('urllib');
 import {Server as HTTPServer} from 'http';
-import { provide, inject } from 'midway-mirror';
+import { provide, inject, autowire } from 'midway-mirror';
 import {Cipher} from './cipher';
 
 @provide()
+@autowire(false)
 export class DebugServer extends EventEmitter {
 
   @inject()
