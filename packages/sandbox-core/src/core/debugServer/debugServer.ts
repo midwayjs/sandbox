@@ -5,16 +5,21 @@ import WebSocket = require('ws');
 import {Server as WebSocketServer} from 'ws';
 import urllib = require('urllib');
 import {Server as HTTPServer} from 'http';
+import { provide, inject, autowire } from 'midway-mirror';
 import {Cipher} from './cipher';
 
+@provide()
+@autowire(false)
 export class DebugServer extends EventEmitter {
+
+  @inject()
+  cipher: Cipher;
 
   private httpServer: HTTPServer;
   private wsServer: WebSocketServer;
   private logger = console;
 
-  public constructor (server) {
-    super();
+  public setServer(server) {
     this.httpServer = server;
   }
 
@@ -45,7 +50,7 @@ export class DebugServer extends EventEmitter {
       socket.pause();
       const query = QueryString.parse(Url.parse(url).query);
       const tokenRaw: string = query.token as any;
-      const info = JSON.parse(Cipher.decrypt(tokenRaw));
+      const info = JSON.parse(this.cipher.decrypt(tokenRaw));
       info.host = info.ip;
 
       this.logger.log('ws', url);

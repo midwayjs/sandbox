@@ -1,18 +1,34 @@
 import * as assert from 'assert';
+import { getInstance } from '../../helper';
 import { Cipher } from '../../../src/core/debugServer/cipher';
 
 describe('/src/core/debugServer/cipher.ts', () => {
 
-  it('should throw error when pass null to encrypt', () => {
-    assert.throws(() => {
-      Cipher.encrypt(null);
-    }, Error);
+  let cipher: Cipher;
+
+  before(async() => {
+    cipher = await getInstance('cipher');
   });
 
-  it('should throw error when pass null to decrypt', () => {
+  it('should encrypt/decrypt ok', () => {
+    const plainText = 'hello world';
+    const cipherText = cipher.encrypt(plainText);
+    assert(plainText === cipher.decrypt(cipherText));
+  });
+
+  it('should throw error when pass null to encrypt/decrypt', () => {
     assert.throws(() => {
-      Cipher.decrypt(null);
-    }, Error);
+      cipher.decrypt(null);
+    }, /value required/);
+  });
+
+  it('should throw error when secret is missing', async () => {
+    const rawSecret = cipher.config.secret;
+    cipher.config.secret = undefined;
+    assert.throws(() => {
+      cipher.encrypt('hello world');
+    }, /secret config required/);
+    cipher.config.secret = rawSecret;
   });
 
 });
