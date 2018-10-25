@@ -2,33 +2,33 @@ export const focusLayout = [{
   title: '焦点视图',
   charts: [
     {
-      title: 'Nginx QPS',
+      title: 'HTTP Server QPS',
       indicators: [
         {
           type: 'number',
           aggregator: 'sum',
-          metric: 'system.tsar.nginx_qps',
-          title: 'Nginx QPS',
+          metric: 'middleware.http.request.qps',
+          title: 'HTTP Server QPS',
 
           unit: '次/秒',
         },
       ],
     },
     {
-      title: 'Nginx RT',
+      title: 'HTTP Server RT',
       indicators: [
         {
           type: 'number',
           aggregator: 'avg',
-          metric: 'system.tsar.nginx_rt',
-          title: 'Nginx RT',
+          metric: 'middleware.http.request.rt',
+          title: 'HTTP Server RT',
 
           unit: 'ms',
         },
       ],
     },
     {
-      title: '访问成功率',
+      title: 'HTTP Server 访问成功率',
       indicators: [
         {
           aggregator: 'avg',

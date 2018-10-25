@@ -132,25 +132,25 @@ export const systemLayout = [
         ],
       },
       {
-        title: 'Nginx QPS',
+        title: 'HTTP Server QPS',
         indicators: [
           {
             type: 'number',
             aggregator: 'sum',
-            metric: 'system.tsar.nginx_qps',
-            title: 'Nginx QPS',
+            metric: 'middleware.http.request.qps',
+            title: 'HTTP Server QPS',
             unit: '次/秒',
           },
         ],
       },
       {
-        title: 'Nginx RT',
+        title: 'HTTP Server RT',
         indicators: [
           {
             type: 'number',
             aggregator: 'avg',
-            metric: 'system.tsar.nginx_rt',
-            title: 'Nginx RT',
+            metric: 'middleware.http.request.rt',
+            title: 'HTTP Server RT',
             unit: 'ms',
           },
         ],
