@@ -8,6 +8,9 @@ export const coreMetrics = {
     metric: 'system.cpu.usage',
     affix: '%',
     normalizedValue: true,
+    unusual: {
+      gte: 0.8
+    }
   },
   load1: {
     aggregator: 'avg',
@@ -18,12 +21,18 @@ export const coreMetrics = {
     metric: 'system.mem.usage',
     affix: '%',
     normalizedValue: true,
+    unusual: {
+      gte: 0.7
+    }
   },
   diskUsage: {
     aggregator: 'avg',
     metric: 'system.disk.partition.used_ratio',
     affix: '%',
     normalizedValue: true,
+    unusual: {
+      gte: 0.7
+    }
   },
   qps: {
     aggregator: 'sum',
@@ -32,6 +41,9 @@ export const coreMetrics = {
   rt: {
     aggregator: 'avg',
     metric: 'system.tsar.nginx_rt',
+    unusual: {
+      gte: 2000
+    }
   },
   errorCount: {
     aggregator: 'sum',
