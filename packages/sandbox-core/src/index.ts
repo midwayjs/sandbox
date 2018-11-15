@@ -43,3 +43,13 @@ export * from './core/dataSource/tsdb';
 export * from './core/dataSource/tsdb.core';
 export * from './core/dataSource/core';
 export * from './core/dataSource/dw';
+
+export * from './core/service/applicationService';
+export * from './core/service/errorService';
+export * from './core/service/metricsService';
+export * from './core/service/remoteDebugService';
+export * from './core/service/traceService';
+
+export * from './core/util/util';
+export * from './app/util/date';
+export * from './app/util/metricsUtils';
