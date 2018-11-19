@@ -3,7 +3,7 @@ export * from './app/controller/errorCtrl';
 export * from './app/controller/metricsCtrl';
 export * from './app/controller/remoteDebugCtrl';
 export * from './app/controller/tracingCtrl';
-export * from './app/controller/zPages';
+export * from './app/controller/page';
 
 export * from './interface/adapter/IPandoraAdapter';
 export * from './interface/adapter/IPlatformAdapter';

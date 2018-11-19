@@ -1,10 +1,11 @@
-import { controller, logger, get, provide } from 'midway-mirror';
+import { controller, logger, get, provide, priority } from 'midway-mirror';
 
 const PAGE_TITLE: string = 'Midway-Sandbox';
 
+@priority(-1)
 @provide()
 @controller('/')
-export class ZPages {
+export class Page {
 
   @logger()
   logger;
