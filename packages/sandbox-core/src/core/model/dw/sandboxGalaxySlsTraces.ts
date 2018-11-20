@@ -5,7 +5,7 @@ import { DWDataSource } from '../../dataSource/dw';
 export async function factory(context: IApplicationContext) {
   const name = 'slsTraces';
   const dataSource = await context.getAsync<DWDataSource>('dw');
-  const instance = dataSource.instance;
+  const instance = dataSource.getInstance();
 
   /* tslint:disable:variable-name */
   const SLSTraceModel = instance.define(name, {

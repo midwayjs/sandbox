@@ -12,17 +12,17 @@ export class TSDB {
 
   @logger()
   public logger;
-
-  private host: string;
-  private port: string;
-  private prefix: string;
-  private defaultQueryOpts = {
+  defaultQueryOpts = {
     ms: 'true',
   };
-  private defaultPOSTOpts = {
+  defaultPOSTOpts = {
     msResolution: true,
     showQuery: true,
   };
+
+  protected host: string;
+  protected port: string;
+  protected prefix: string;
 
   @init()
   init() {

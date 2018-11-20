@@ -11,15 +11,15 @@ import { sqlPartTimestampConvertToTs } from '../util/util';
 export class TraceNodeManager {
 
   @inject()
-  dw;
+  protected dw;
 
   @logger()
-  private logger;
+  protected logger;
 
   @inject()
-  private traceNodeModel;
+  protected traceNodeModel;
 
-  private instance;
+  protected instance;
 
   @init()
   initialize() {

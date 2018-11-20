@@ -7,7 +7,7 @@ import { FindAndCountAllResult, ModelQueryOptions, ScopeInfo } from '../../inter
 export class ApplicationManager {
 
   @inject()
-  private applicationModel;
+  protected applicationModel;
 
   public async list(condition: FindOptions<SandboxApplication>): Promise<FindAndCountAllResult<SandboxApplication>> {
     return this.applicationModel.findAndCount(condition);

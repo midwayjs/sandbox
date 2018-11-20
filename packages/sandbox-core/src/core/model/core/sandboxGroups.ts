@@ -5,7 +5,7 @@ import { CoreDBDataSource } from '../../dataSource/core';
 export async function factory(context: IApplicationContext) {
   const name = 'groups';
   const dataSource = await context.getAsync<CoreDBDataSource>('coreDB');
-  const instance = dataSource.instance;
+  const instance = dataSource.getInstance();
 
   /* tslint:disable:variable-name */
   const GroupModel = instance.define(name, {

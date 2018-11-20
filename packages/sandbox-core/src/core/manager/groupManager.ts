@@ -8,10 +8,10 @@ import { FindAndCountAllResult, ModelQueryOptions, ScopeInfo } from '../../inter
 export class GroupManager {
 
   @logger()
-  private logger;
+  protected logger;
 
   @inject()
-  private groupModel;
+  protected groupModel;
 
   public async list(condition: FindOptions<SandboxGroup>): Promise<FindAndCountAllResult<SandboxGroup>> {
     return this.groupModel.findAndCount(condition);

@@ -3,11 +3,11 @@ import * as Sequelize from 'sequelize';
 import { Options as SequelizeOptions, Sequelize as SequelizeInstance } from 'sequelize';
 
 export class BaseDataSource {
+  protected instance: SequelizeInstance;
 
-  config;
-  logger;
-  instance: SequelizeInstance;
-  name: string;
+  protected config;
+  protected logger;
+  protected name: string;
 
   @init()
   async connection() {
@@ -25,6 +25,10 @@ export class BaseDataSource {
       error.message = `[DataSource-${this.name}] connection error：${error.message}`;
       throw error;
     }
+  }
+
+  getInstance(): SequelizeInstance {
+    return this.instance;
   }
 
   async prepare() {

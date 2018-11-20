@@ -16,16 +16,16 @@ import {GroupManager} from '../manager/groupManager';
 export class ApplicationService implements IApplicationService {
 
   @logger()
-  private logger;
+  protected logger;
 
   @inject()
-  private applicationManager: ApplicationManager;
+  protected applicationManager: ApplicationManager;
 
   @inject()
-  private groupManager: GroupManager;
+  protected groupManager: GroupManager;
 
   @inject()
-  private platformManagerAdapter: PlatformManagerAdapter;
+  protected platformManagerAdapter: PlatformManagerAdapter;
 
   async listByUser(uid: string, options?: ModelQueryOptions): Promise<ListResult<SandboxApplication>> {
     assert(uid, 'uid can\'t be null');

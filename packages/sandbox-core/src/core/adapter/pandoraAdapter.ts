@@ -8,10 +8,10 @@ import {IRemoteExecuteAdapter} from '../../interface/adapter/IRemoteExecuteAdapt
 export class PandoraAdapter implements IPandoraAdapter {
 
   @inject('remoteExecuteAdapter')
-  remoteExecuteAdapter: IRemoteExecuteAdapter;
+  protected remoteExecuteAdapter: IRemoteExecuteAdapter;
 
   @config('pandora')
-  config;
+  protected config;
 
   async invokeRestful(host: HostSelector, url) {
     const pandoraRestfulPort = this.config.restfulPort;

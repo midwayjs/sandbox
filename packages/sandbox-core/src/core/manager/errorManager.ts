@@ -12,10 +12,10 @@ interface SearchCondition {
 export class ErrorManager {
 
   @logger()
-  logger;
+  protected logger;
 
   @inject()
-  private errorModel;
+  protected errorModel;
 
   public async findErrors(options: Interface.QueryErrorOptions) {
     const conditions: any[] = [

@@ -8,10 +8,10 @@ import {ErrorManager} from '../manager/errorManager';
 export class ErrorService implements Interface.IErrorService {
 
   @logger()
-  logger;
+  protected logger;
 
   @inject('errorManager')
-  errorManager: ErrorManager;
+  protected errorManager: ErrorManager;
 
   async queryErrors(options: Interface.QueryErrorOptions): Promise<PaginationResult<ErrorRecord>> {
     this.logger.info('[Service:API:queryErrors:params:]', options);

@@ -7,7 +7,7 @@ import {IPlatformAdapter} from '../../interface/adapter/IPlatformAdapter';
 export class PlatformManagerAdapter implements IPlatformManagerAdapter {
 
   @inject()
-  platformAdapterDispatcher;
+  protected platformAdapterDispatcher;
 
   async get(name: string): Promise<IPlatformAdapter> {
     return this.platformAdapterDispatcher(name);

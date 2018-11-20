@@ -13,13 +13,13 @@ const BUILD_IN_REG = new RegExp(`^(${BUILT_IN_PREFIXS.join('|')})`);
 export class MetricsService implements IMetricsService {
 
   @inject('tsdb')
-  tsdb: TSDB;
+  protected tsdb: TSDB;
 
   @inject('metricsManager')
-  metricsManager: MetricsManager;
+  protected metricsManager: MetricsManager;
 
   @inject('applicationService')
-  applicationService: ApplicationService;
+  protected applicationService: ApplicationService;
 
   async getMetricsNames(options: ComplexSelector & AppSelector & TimeWindowOptions): Promise<string[]> {
     return this.metricsManager.getMetricsNames(options);

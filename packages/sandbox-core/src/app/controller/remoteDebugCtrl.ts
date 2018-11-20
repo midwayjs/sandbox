@@ -1,6 +1,7 @@
-import { get, controller, provide, inject } from 'midway-mirror';
+import { get, controller, provide, inject, priority } from 'midway-mirror';
 import { RemoteDebugService } from '../../core/service/remoteDebugService';
 
+@priority(0)
 @provide()
 @controller('/v2/api/remotedebug/')
 export class RemoteDebugCtrl {

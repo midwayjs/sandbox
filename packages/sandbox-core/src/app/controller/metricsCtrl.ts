@@ -1,8 +1,9 @@
-import { inject, get, controller, provide } from 'midway-mirror';
+import { inject, get, controller, provide, priority } from 'midway-mirror';
 
 import {MetricsUtils} from '../util/metricsUtils';
 import {MetricNameJSON} from '../../interface/services/common';
 
+@priority(0)
 @provide()
 @controller('/v2/api/metrics/')
 export class MetricsCtrl {

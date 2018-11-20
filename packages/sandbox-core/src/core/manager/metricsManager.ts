@@ -7,10 +7,10 @@ import {ISadMetricsAdapter} from '../../interface/adapter/ISadMetricsAdapter';
 export class MetricsManager {
 
   @inject('tsdb')
-  tsdb: TSDB;
+  protected tsdb: TSDB;
 
   @inject('sadMetricsAdapter')
-  sadMetricsAdapter: ISadMetricsAdapter;
+  protected sadMetricsAdapter: ISadMetricsAdapter;
 
   static pickLatestDp (dps) {
     let times = [];

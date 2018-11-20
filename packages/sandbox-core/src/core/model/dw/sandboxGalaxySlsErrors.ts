@@ -5,7 +5,7 @@ import { DWDataSource } from '../../dataSource/dw';
 export async function factory(context: IApplicationContext) {
   const name = 'slsErrors';
   const dataSource = await context.getAsync<DWDataSource>('dw');
-  const instance = dataSource.instance;
+  const instance = dataSource.getInstance();
 
   /* tslint:disable:variable-name */
   const SLSErrorModel = instance.define(name, {

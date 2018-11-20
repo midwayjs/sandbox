@@ -1,7 +1,8 @@
-import { inject, get, post, controller, provide } from 'midway-mirror';
+import { inject, get, post, controller, provide, priority } from 'midway-mirror';
 import {IApplicationService} from '../../interface/services/IApplicationService';
 import { wrapJson } from '../../core/util/util';
 
+@priority(0)
 @provide()
 @controller('/v2/api/application/')
 export class ApplicationCtrl {
