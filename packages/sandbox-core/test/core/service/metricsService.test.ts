@@ -24,7 +24,7 @@ describe('metricsService.test.ts', () => {
 
   it('should getCustomMetricsNames() be ok', async () => {
     const metricsService: MetricsService = await getInstance('metricsService');
-    mm(metricsService.metricsManager, 'getMetricsNames', () => {
+    mm((<any>metricsService).metricsManager, 'getMetricsNames', () => {
       return ['system.a', 'node.b', 'error.c', 'middleware.d', 'ok', 'yes', 'custom.xxx'];
     });
     const res = await metricsService.getCustomMetricsNames({
