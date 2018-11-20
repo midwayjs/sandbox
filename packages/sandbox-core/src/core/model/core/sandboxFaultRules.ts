@@ -5,7 +5,7 @@ import { CoreDBDataSource } from '../../dataSource/core';
 export async function factory(context: IApplicationContext) {
   const name = 'faultRules';
   const dataSource = await context.getAsync<CoreDBDataSource>('coreDB');
-  const instance = dataSource.instance;
+  const instance = dataSource.getInstance();
 
   /* tslint:disable:variable-name */
   const FaultRuleModel = instance.define(name, {

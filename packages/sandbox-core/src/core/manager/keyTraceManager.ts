@@ -14,7 +14,7 @@ export class KeyTraceManager {
   dw;
 
   @inject()
-  private keyTraceModel;
+  protected keyTraceModel;
 
   public async list(condition: FindOptions<KeyTrace>): Promise<FindAndCountAllResult<KeyTrace>> {
     return this.keyTraceModel.findAndCount(condition);

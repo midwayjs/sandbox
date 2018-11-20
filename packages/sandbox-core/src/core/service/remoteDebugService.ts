@@ -9,10 +9,10 @@ import {IPrivilegeAdapter} from '../../interface/adapter/IPrivilegeAdapter';
 export class RemoteDebugService implements IRemoteDebugService {
 
   @inject('pandoraAdapter')
-  pandoraAdapter: PandoraAdapter;
+  protected pandoraAdapter: PandoraAdapter;
 
   @inject('privilegeAdapter')
-  privilegeAdapter: IPrivilegeAdapter;
+  protected privilegeAdapter: IPrivilegeAdapter;
 
   async getDebuggableHost(options: HostSelector & AppSelector & UserSelector): Promise<DebuggableHost> {
     const {scope, scopeName, uid} = options;

@@ -16,13 +16,13 @@ import {KeyTraceManager} from '../manager/keyTraceManager';
 export class TraceService {
 
   @inject()
-  traceManager: TraceManager;
+  protected traceManager: TraceManager;
 
   @inject()
-  traceNodeManager: TraceNodeManager;
+  protected traceNodeManager: TraceNodeManager;
 
   @inject()
-  keyTraceManager: KeyTraceManager;
+  protected keyTraceManager: KeyTraceManager;
 
   async listFocusTraces(options: AppSelector): Promise<ListResult<KeyTrace>> {
     options = this.optionsCheck(options, ['scope', 'scopeName']);

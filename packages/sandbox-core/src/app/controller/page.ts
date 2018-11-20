@@ -2,7 +2,7 @@ import { controller, logger, get, provide, priority } from 'midway-mirror';
 
 const PAGE_TITLE: string = 'Midway-Sandbox';
 
-@priority(-1)
+@priority(-10)
 @provide()
 @controller('/')
 export class Page {
