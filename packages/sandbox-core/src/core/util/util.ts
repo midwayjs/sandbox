@@ -6,11 +6,11 @@ export function optionsCheck(options, required: string[]): void {
   });
 }
 
-export function wrapJson (data) {
+export function wrapJson(data, error?: Error & { code: number }) {
   return {
-    success: true,
-    message: 'success',
-    code: 0,
+    success: !error,
+    message: error ? error.message : 'success',
+    code: error ? error.code : 0,
     data,
   };
 }
