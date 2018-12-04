@@ -51,11 +51,11 @@ export class ErrorCtrl {
   @get('/queryErrorTypes')
   async queryErrorTypes(ctx) {
 
-    const startTimeRaw: string = ctx.request.query.startTime;
-    const endTimeRaw: string = ctx.request.query.endTime;
-    const startTimeRaw2nd: string | moment.Moment = moment(startTimeRaw).isValid()
+    const startTimeRaw: number = parseInt(ctx.request.query.startTime, 10);
+    const endTimeRaw: number = parseInt(ctx.request.query.endTime, 10);
+    const startTimeRaw2nd: number | moment.Moment = moment(startTimeRaw).isValid()
       ? startTimeRaw : moment().subtract(15, 'minutes');
-    const endTimeRaw2nd: string | moment.Moment = moment(endTimeRaw).isValid() ? endTimeRaw : moment();
+    const endTimeRaw2nd: number | moment.Moment = moment(endTimeRaw).isValid() ? endTimeRaw : moment();
     const startTime: number = moment(startTimeRaw2nd).valueOf();
     const endTime: number = moment(endTimeRaw2nd).valueOf();
     const scope: string = _.trim(ctx.request.query.scope || '');
