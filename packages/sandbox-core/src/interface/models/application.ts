@@ -10,6 +10,7 @@ export interface SandboxApplication extends ScopeInfo {
   alinodeToken: string;
   flag: number;
   deleted: number;
+  state?: number;
   createdAt: string;
   updatedAt: string;
 }
