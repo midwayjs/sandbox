@@ -1,3 +1,5 @@
+import { FindOptionsAttributesArray } from 'sequelize';
+
 export interface FindAndCountAllResult<T> {
   rows: T[];
   count: number;
@@ -20,3 +22,5 @@ export interface ModelQueryOptions {
   limit?: number;
   order?: string;
 }
+
+export type QueryAttributes = FindOptionsAttributesArray | { include?: FindOptionsAttributesArray, exclude?: string[] };
