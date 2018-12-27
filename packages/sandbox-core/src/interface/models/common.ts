@@ -16,11 +16,11 @@ export interface TimeQuery {
   endTime?: string;
 }
 
+export type QueryAttributes = FindOptionsAttributesArray | { include?: FindOptionsAttributesArray, exclude?: string[] };
+
 export interface ModelQueryOptions {
-  attributes?: string[];
+  attributes?: QueryAttributes;
   offset?: number;
   limit?: number;
   order?: string;
 }
-
-export type QueryAttributes = FindOptionsAttributesArray | { include?: FindOptionsAttributesArray, exclude?: string[] };
