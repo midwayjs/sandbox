@@ -311,7 +311,7 @@ export class TraceManager {
     }
 
     if (options) {
-      if (options.attributes && options.attributes.length > 0) {
+      if (options.attributes) {
         condition.attributes = options.attributes;
       }
 
