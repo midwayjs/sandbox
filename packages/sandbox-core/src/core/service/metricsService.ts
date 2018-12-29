@@ -50,6 +50,7 @@ export class MetricsService implements IMetricsService {
 
     const resp = await this.tsdb.query({
       start: '6m-ago',
+      end: '1m-ago',
       queries,
     });
 
