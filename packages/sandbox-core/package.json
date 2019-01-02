@@ -34,7 +34,7 @@
     "nyc": "^11.2.1",
     "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
-    "typescript": "^3.0.1"
+    "typescript": "^3.2.2"
   },
   "scripts": {
     "prepublishOnly": "npm run build",
