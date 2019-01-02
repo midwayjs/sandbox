@@ -22,5 +22,5 @@ export interface ModelQueryOptions {
   attributes?: QueryAttributes;
   offset?: number;
   limit?: number;
-  order?: string;
+  order?: any;
 }
