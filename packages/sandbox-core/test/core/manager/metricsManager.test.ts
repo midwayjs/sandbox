@@ -7,12 +7,15 @@ import mm = require('mm');
 describe('test/core/manager/metricsManager.test.ts', () => {
 
   it('should static pickLatestDp() be ok', () => {
-    const latest = MetricsManager.pickLatestDp({
+    let latest = MetricsManager.pickLatestDp({
       123: '123',
       456: '456',
       1000: 'latest',
     });
     assert('latest' === latest);
+
+    latest = MetricsManager.pickLatestDp({});
+    assert(null === latest);
   });
 
   it('should getMetricsNames() be ok', async () => {

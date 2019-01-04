@@ -83,7 +83,7 @@ export class TSDB {
     this.logger.info('[TSDB]', finalUrl);
     const options = {
       dataType: 'json',
-      timeout: 5000,
+      timeout: 10000,
       ...opts,
       headers: {
         ...this.config.extHeaders || null,

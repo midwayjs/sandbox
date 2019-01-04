@@ -1,4 +1,5 @@
 import { provide, inject } from 'midway-mirror';
+import * as _ from 'lodash';
 import {AppSelector, IndicatorResult, MetricNameJSON, TimeWindowOptions} from '../../interface/services/common';
 import {TSDB} from '../dataSource/tsdb';
 import {ISadMetricsAdapter} from '../../interface/adapter/ISadMetricsAdapter';
@@ -13,6 +14,9 @@ export class MetricsManager {
   protected sadMetricsAdapter: ISadMetricsAdapter;
 
   static pickLatestDp (dps) {
+    if (_.isEmpty(dps)) {
+      return null;
+    }
     let times = [];
     for (const key of Object.keys(dps)) {
       times.push(parseInt(key, 10));
