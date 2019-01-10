@@ -10,16 +10,16 @@ module.exports = appInfo => {
   // Part 1
   // 核心配置
   config.container = {
-    loadDir: ['../node_modules/sandbox-core/dist/core', 'app', 'lib'],
+    loadDir: [ `${appInfo.appDir}/node_modules/sandbox-core/dist/core`, 'src' ],
   };
 
   config.pandora = {
-    restfulPort: 7002
+    restfulPort: 7002,
   };
 
   config.tsdb = {
     host: process.env.UNDER_DOCKER ? 'opentsdb' : '127.0.0.1',
-    port: 4242
+    port: 4242,
   };
 
   config.dw = {
@@ -38,7 +38,6 @@ module.exports = appInfo => {
     database: 'sandbox',
   };
 
-
   // Part 2
   // 客制化配置
   config.coreMetrics = coreMetrics;
@@ -47,7 +46,6 @@ module.exports = appInfo => {
   config.defaultEnv = defaultEnv;
   config.envSchemas = envSchemas;
   config.envSchemasOrderly = envSchemasOrderly;
-
 
   // Part 3
   // 插件相关的配置
@@ -71,7 +69,7 @@ module.exports = appInfo => {
         success: false,
         message: err.message,
         data: null,
-        code: 500
+        code: 500,
       };
     }
   };
@@ -82,7 +80,7 @@ module.exports = appInfo => {
 
   config.security = {
     csrf: { enable: false },
-    csp: false
+    csp: false,
   };
 
   config.customLogger = {
