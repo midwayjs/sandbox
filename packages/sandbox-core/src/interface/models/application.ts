@@ -5,6 +5,7 @@ export interface SandboxApplication extends ScopeInfo {
   description: string;
   bu: string;
   owner: string;
+  ownerBu: string;
   appops: string | object;
   alinodeId: string;
   alinodeToken: string;

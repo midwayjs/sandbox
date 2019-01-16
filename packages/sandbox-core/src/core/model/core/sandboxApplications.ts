@@ -62,6 +62,11 @@ export async function factory(context: IApplicationContext) {
       type: Sequelize.INTEGER(4).UNSIGNED,
       allowNull: false,
     },
+    ownerBu: {
+      type: Sequelize.STRING(256),
+      allowNull: true,
+      field: 'owner_bu',
+    },
   }, {
     timestamps: true,
     createdAt: 'gmt_create',
