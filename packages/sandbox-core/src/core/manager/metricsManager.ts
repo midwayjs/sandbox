@@ -75,8 +75,13 @@ export class MetricsManager {
         continue;
       }
 
-      max.frontEndAggregator = 'highest';
-      min.frontEndAggregator = 'lowest';
+      if (max) {
+        max.frontEndAggregator = 'highest';
+      }
+
+      if (min) {
+        min.frontEndAggregator = 'lowest';
+      }
 
       const avgMap: Map<number, {cnt: number; sum: number}> = new Map();
       for (const metricRes of relateds) {
