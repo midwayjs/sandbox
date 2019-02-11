@@ -6,7 +6,7 @@
     "chrome-devtools-frontend": "^1.0.590489",
     "egg-view-nunjucks": "^2.2.0",
     "midway": "^1.0.2",
-    "sandbox-core": "^0.0.2"
+    "sandbox-core": "^0.0.15"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
