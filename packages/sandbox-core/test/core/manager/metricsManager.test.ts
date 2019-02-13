@@ -177,6 +177,17 @@ describe('test/core/manager/metricsManager.test.ts', () => {
     expect(res).to.be.equal(input);
   });
 
+  it('should frontEndAnalyse() ok when resp is empty', async () => {
+    const input = [];
+    const metricsManager: MetricsManager = await getInstance('metricsManager');
+    const res = metricsManager.frontEndAnalyse(
+      {analyseHigherLower: false},
+      [{ metric: 'testName', aggregator: 'avg' }],
+      input,
+    );
+    expect(res).to.be.equal(input);
+  });
+
   it('should getLatestMetricByAppSelectorAndGroupByEachHost() be ok', async () => {
     const metricsManager: MetricsManager = await getInstance('metricsManager');
     mm(metricsManager, 'tsdb', {
