@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
-    "@types/node": "^10.5.5",
+    "@types/node": "^11.9.3",
     "midway-bin": "^0.3.2",
     "midway-mock": "^0.3.7",
     "ts-node": "^7.0.0",
