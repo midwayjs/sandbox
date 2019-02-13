@@ -3,7 +3,6 @@ import { DebuggableHost, HostSelector, AppSelector, UserSelector } from '../../i
 import {PandoraAdapter} from '../adapter/pandoraAdapter';
 import {Cipher} from '../debugServer/cipher';
 import {IRemoteDebugService} from '../../interface/services/IRemoteDebugService';
-import {IPrivilegeAdapter} from '../../interface/adapter/IPrivilegeAdapter';
 
 @provide('remoteDebugService')
 export class RemoteDebugService implements IRemoteDebugService {
@@ -11,15 +10,8 @@ export class RemoteDebugService implements IRemoteDebugService {
   @inject('pandoraAdapter')
   protected pandoraAdapter: PandoraAdapter;
 
-  @inject('privilegeAdapter')
-  protected privilegeAdapter: IPrivilegeAdapter;
-
   async getDebuggableHost(options: HostSelector & AppSelector & UserSelector): Promise<DebuggableHost> {
-    const {scope, scopeName, uid} = options;
-    const hasPermission = await this.privilegeAdapter.isAppOps(scope, scopeName, uid);
-    if (!hasPermission) {
-      throw new Error('You have no permission to reach this');
-    }
+    const {uid} = options;
     const debuggableProcesses = await this.pandoraAdapter.getDebuggableProcesses(options);
     for (const process of debuggableProcesses) {
       process.token = Cipher.encrypt(JSON.stringify({
