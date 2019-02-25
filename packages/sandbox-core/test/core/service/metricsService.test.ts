@@ -100,14 +100,26 @@ describe('metricsService.test.ts', () => {
         assert(query.end === 456);
         assert(query.queries[0].metric === 'testName1');
         assert(query.queries[0].aggregator === 'avg');
-        assert(query.queries[0].tags.scope === 'test');
-        assert(query.queries[0].tags.scope_name === 'test');
-        assert(query.queries[0].tags.env === 'test');
+        assert(query.queries[0].filters.some((f) => {
+          return f.tagk = 'scope' && f.filter === 'test';
+        }));
+        assert(query.queries[0].filters.some((f) => {
+          return f.tagk = 'scope_name' && f.filter === 'test';
+        }));
+        assert(query.queries[0].filters.some((f) => {
+          return f.tagk = 'env' && f.filter === 'test';
+        }));
         assert(query.queries[1].metric === 'testName2');
         assert(query.queries[1].aggregator === 'avg');
-        assert(query.queries[1].tags.scope === 'test');
-        assert(query.queries[1].tags.scope_name === 'test');
-        assert(query.queries[1].tags.env === 'test');
+        assert(query.queries[1].filters.some((f) => {
+          return f.tagk = 'scope' && f.filter === 'test';
+        }));
+        assert(query.queries[1].filters.some((f) => {
+          return f.tagk = 'scope_name' && f.filter === 'test';
+        }));
+        assert(query.queries[1].filters.some((f) => {
+          return f.tagk = 'env' && f.filter === 'test';
+        }));
         assert(query.queries.length === 2);
         return [
           {
@@ -302,6 +314,30 @@ describe('metricsService.test.ts', () => {
       { metric: 'testName2', aggregator: 'avg' },
     ]);
 
+  });
+
+  it('should be ok for convertTagsToFilters()', async () => {
+    const metricsService: MetricsService = await getInstance('metricsService');
+    const queries = [
+      {
+        tags: {
+          scopeName: 'test-scope-name',
+          hostname: undefined,
+          ip: '192.168.1.1|192.168.2.2',
+        },
+      },
+      {
+        tags: {
+          scope: 'test-scope',
+          ip: '192.168.*',
+        },
+      }
+    ];
+    metricsService.convertTagsToFilters(queries);
+    assert(queries.every((q) => q.tags === undefined));
+    assert(queries.every((q) => (q as any).filters));
+    assert((queries[0] as any).filters.every((f) => f.type === 'literal_or'));
+    assert((queries[1] as any).filters.some((f) => f.type === 'wildcard'));
   });
 
 });
