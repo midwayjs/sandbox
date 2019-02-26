@@ -2,6 +2,7 @@ import { provide, inject } from 'midway-mirror';
 import { ComplexSelector, MetricsNamesSelector, IndicatorResult, TimeWindowOptions,
   AppSelector } from '../../interface/services/common';
 import {TSDB} from '../dataSource/tsdb';
+import * as _ from 'lodash';
 import {MetricsManager} from '../manager/metricsManager';
 import {ApplicationService} from './applicationService';
 import {IMetricsService} from '../../interface/services/IMetricsService';
@@ -102,6 +103,8 @@ export class MetricsService implements IMetricsService {
       });
     }
 
+    this.convertTagsToFilters(queries);
+
     const batchQuery = await this.tsdb.query({
       start: startTime,
       end: endTime,
@@ -141,6 +144,26 @@ export class MetricsService implements IMetricsService {
 
     return ret2n;
 
+  }
+
+  convertTagsToFilters(queries) {
+    // 将 tags 转为 filter 查询语法，以便支持多值不带 group by 的查询
+    queries.forEach((query) => {
+      const tagEntries = _.entries(query.tags);
+      query.filters = tagEntries.map((entry) => {
+        if (!entry[1]) {
+          return null;
+        }
+        return {
+          type: (entry[1] as string).includes('*') ? 'wildcard' : 'literal_or',
+          tagk: entry[0],
+          filter: entry[1],
+          groupBy: false,   // filter 中不采用 group by，如有需要可以使用多个 query
+        };
+      }).filter((t) => t);
+      query.tags = undefined;
+    });
+    return queries;
   }
 
   async queryHostsMap(options: ComplexSelector & MetricsNamesSelector & AppSelector) {
