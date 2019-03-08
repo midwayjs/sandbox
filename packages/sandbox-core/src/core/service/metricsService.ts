@@ -86,24 +86,17 @@ export class MetricsService implements IMetricsService {
 
     const queries = [];
     for (const metricsNameJSON of metricsNames) {
-      const extTags = {};
-      if (metricsNameJSON.groupBy) {
-        for (const key of metricsNameJSON.groupBy) {
-          extTags[key] = '*';
-        }
-      }
+      const filters = this.convertTagsToFilters({
+        scope, scope_name: scopeName, env, ip, hostname,
+      }, metricsNameJSON.groupBy);
+
       queries.push({
         metric: metricsNameJSON.metric,
         aggregator: metricsNameJSON.aggregator,
         downsample: metricsNameJSON.downsample,
-        tags: {
-          scope, scope_name: scopeName, env, ip, hostname,
-          ...extTags,
-        },
+        filters,
       });
     }
-
-    this.convertTagsToFilters(queries);
 
     const batchQuery = await this.tsdb.query({
       start: startTime,
@@ -146,24 +139,34 @@ export class MetricsService implements IMetricsService {
 
   }
 
-  convertTagsToFilters(queries) {
-    // 将 tags 转为 filter 查询语法，以便支持多值不带 group by 的查询
-    queries.forEach((query) => {
-      const tagEntries = _.entries(query.tags);
-      query.filters = tagEntries.map((entry) => {
-        if (!entry[1]) {
-          return null;
-        }
+  convertTagsToFilters(tags, groupBys) {
+    // 将 tags 转为 filter 查询语法，不带 groupby 的查询
+    let filters = [];
+    const tagEntries = _.entries(tags);
+    filters = tagEntries.map((entry) => {
+      if (!entry[1]) {
+        return null;
+      }
+      return {
+        type: (entry[1] as string).includes('*') ? 'wildcard' : 'literal_or',
+        tagk: entry[0],
+        filter: entry[1],
+        groupBy: false,
+      };
+    }).filter((t) => t);
+    // 处理 groupBy 的情况
+    if (groupBys instanceof Array) {
+      filters.push(...groupBys.map((key) => {
         return {
-          type: (entry[1] as string).includes('*') ? 'wildcard' : 'literal_or',
-          tagk: entry[0],
-          filter: entry[1],
-          groupBy: false,   // filter 中不采用 group by，如有需要可以使用多个 query
+          type: 'wildcard',
+          tagk: key,
+          filter: '*',
+          groupBy: true,
         };
-      }).filter((t) => t);
-      query.tags = undefined;
-    });
-    return queries;
+      }));
+    }
+
+    return filters;
   }
 
   async queryHostsMap(options: ComplexSelector & MetricsNamesSelector & AppSelector) {
