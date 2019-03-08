@@ -1,4 +1,4 @@
-import { get, controller, provide, inject, priority } from 'midway-mirror';
+import { get, controller, provide, inject, priority } from 'midway-web';
 import { RemoteDebugService } from '../../core/service/remoteDebugService';
 import { IPrivilegeAdapter } from '../../interface/adapter/IPrivilegeAdapter';
 

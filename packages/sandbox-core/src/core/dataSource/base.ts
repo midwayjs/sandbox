@@ -1,4 +1,4 @@
-import { init } from 'midway-mirror';
+import { init } from 'midway-web';
 import * as Sequelize from 'sequelize';
 import { Options as SequelizeOptions, Sequelize as SequelizeInstance } from 'sequelize';
 

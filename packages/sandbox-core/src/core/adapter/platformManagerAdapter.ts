@@ -1,4 +1,4 @@
-import { provide, inject, IApplicationContext, providerWrapper, scope, ScopeEnum } from 'midway-mirror';
+import { provide, inject, IApplicationContext, providerWrapper, scope, ScopeEnum } from 'midway-web';
 import {IPlatformManagerAdapter} from '../../interface/adapter/IPlatformManagerAdapter';
 import {IPlatformAdapter} from '../../interface/adapter/IPlatformAdapter';
 

@@ -1,4 +1,4 @@
-import { logger, provide, inject } from 'midway-mirror';
+import { logger, provide, inject } from 'midway-web';
 import { FindOptions } from 'sequelize';
 import * as md5 from 'md5';
 import { SandboxGroup } from '../../interface/models/group';

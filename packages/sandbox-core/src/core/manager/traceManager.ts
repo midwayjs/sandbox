@@ -1,4 +1,4 @@
-import { logger, provide, inject, init } from 'midway-mirror';
+import { logger, provide, inject, init } from 'midway-web';
 import { FindAndCountAllResult, ModelQueryOptions } from '../../interface/models/common';
 import { FindOptions, QueryTypes, Op, WhereOptions } from 'sequelize';
 import {

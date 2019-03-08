@@ -1,4 +1,4 @@
-import { inject, provide, scope, ScopeEnum, config } from 'midway-mirror';
+import { inject, provide, scope, ScopeEnum, config } from 'midway-web';
 import {AppSelector, HostSelector} from '../../interface/services/common';
 import {IPandoraAdapter} from '../../interface/adapter/IPandoraAdapter';
 import {IRemoteExecuteAdapter} from '../../interface/adapter/IRemoteExecuteAdapter';

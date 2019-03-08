@@ -1,6 +1,6 @@
 import { ErrorRecord, PaginationResult } from '../../interface/services/common';
 import * as Interface from '../../interface/services/IErrorService';
-import { provide, async, logger, inject } from 'midway-mirror';
+import { provide, async, logger, inject } from 'midway-web';
 import {ErrorManager} from '../manager/errorManager';
 
 @async()

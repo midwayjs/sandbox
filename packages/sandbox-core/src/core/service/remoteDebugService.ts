@@ -1,4 +1,4 @@
-import { inject, provide } from 'midway-mirror';
+import { inject, provide } from 'midway-web';
 import { DebuggableHost, HostSelector, AppSelector, UserSelector } from '../../interface/services/common';
 import {PandoraAdapter} from '../adapter/pandoraAdapter';
 import {Cipher} from '../debugServer/cipher';

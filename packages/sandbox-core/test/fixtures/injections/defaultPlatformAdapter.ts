@@ -1,4 +1,4 @@
-import { provide } from 'midway-mirror';
+import { provide } from 'midway-web';
 import {IPlatformIdentification, IPlatformHostResult, IPlatformGroup} from '../../../src/interface/adapter/IPlatformAdapter';
 import defaultPlatformHostsMockData from '../mockData/defaultPlatformHostsMockData';
 import { cloneDeep } from 'lodash';

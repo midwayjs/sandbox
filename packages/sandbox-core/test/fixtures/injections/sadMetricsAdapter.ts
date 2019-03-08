@@ -1,4 +1,4 @@
-import { provide } from 'midway-mirror';
+import { provide } from 'midway-web';
 import {AppSelector, TimeWindowOptions} from '../../../src/interface/services/common';
 import {ISadMetricsAdapter} from '../../../src/interface/adapter/ISadMetricsAdapter';
 

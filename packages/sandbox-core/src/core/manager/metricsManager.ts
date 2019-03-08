@@ -1,4 +1,4 @@
-import { provide, inject } from 'midway-mirror';
+import { provide, inject } from 'midway-web';
 import * as _ from 'lodash';
 import {AppSelector, IndicatorResult, MetricNameJSON, TimeWindowOptions} from '../../interface/services/common';
 import {TSDB} from '../dataSource/tsdb';

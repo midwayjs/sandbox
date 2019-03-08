@@ -1,4 +1,4 @@
-import { MidwayContainer } from 'midway-mirror';
+import { MidwayContainer } from 'midway-web';
 import config from './fixtures/config';
 import { join } from 'path';
 

@@ -1,4 +1,4 @@
-import { provide } from 'midway-mirror';
+import { provide } from 'midway-web';
 
 @provide('privilegeAdapter')
 export class PrivilegeAdapter {

@@ -1,7 +1,7 @@
 import {QueryError, QueryOptions, QueryResultItem, SuggestOptions} from './tsdb.core';
 import urllib = require('urllib');
 import querystring = require('querystring');
-import { provide, config, logger, init, scope, ScopeEnum } from 'midway-mirror';
+import { provide, config, logger, init, scope, ScopeEnum } from 'midway-web';
 
 @scope(ScopeEnum.Singleton)
 @provide('tsdb')

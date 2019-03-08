@@ -1,4 +1,4 @@
-import { controller, logger, get, provide, priority } from 'midway-mirror';
+import { controller, logger, get, provide, priority } from 'midway-web';
 
 const PAGE_TITLE: string = 'Midway-Sandbox';
 

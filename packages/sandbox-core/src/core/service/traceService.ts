@@ -1,6 +1,6 @@
 import { TracingSelector, AppSelector, ListResult,
   AppComplexSelector } from '../../interface/services/common';
-import { inject, provide } from 'midway-mirror';
+import { inject, provide } from 'midway-web';
 import * as assert from 'assert';
 import { KeyTrace } from '../../interface/models/keyTrace';
 import {TraceSummary, Trace, TraceSummaryTrend} from '../../interface/models/trace';
