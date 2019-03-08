@@ -1,4 +1,4 @@
-import { inject, get, post, controller, provide, priority } from 'midway-mirror';
+import { inject, get, post, controller, provide, priority } from 'midway-web';
 import {IApplicationService} from '../../interface/services/IApplicationService';
 import { wrapJson } from '../../core/util/util';
 

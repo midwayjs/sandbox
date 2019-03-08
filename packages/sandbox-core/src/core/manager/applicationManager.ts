@@ -1,4 +1,4 @@
-import { provide, inject } from 'midway-mirror';
+import { provide, inject } from 'midway-web';
 import { Op, FindOptions, UpdateOptions } from 'sequelize';
 import { SandboxApplication } from '../../interface/models/application';
 import { FindAndCountAllResult, ModelQueryOptions, ScopeInfo } from '../../interface/models/common';

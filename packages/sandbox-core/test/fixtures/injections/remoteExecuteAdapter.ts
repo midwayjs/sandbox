@@ -1,4 +1,4 @@
-import { provide } from 'midway-mirror';
+import { provide } from 'midway-web';
 import { HostSelector } from '../../../src/interface/services/common';
 
 @provide('remoteExecuteAdapter')

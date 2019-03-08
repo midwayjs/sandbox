@@ -2,7 +2,7 @@ import * as Interface from '../../interface/services/IErrorService';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
-import { inject, get, controller, provide, logger, priority } from 'midway-mirror';
+import { inject, get, controller, provide, logger, priority } from 'midway-web';
 
 @priority(0)
 @provide()

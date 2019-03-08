@@ -1,4 +1,4 @@
-import { logger, provide, inject, init } from 'midway-mirror';
+import { logger, provide, inject, init } from 'midway-web';
 import { FindOptions, QueryTypes, Op } from 'sequelize';
 import { SpanTargetList, TraceNode, TraceNodeQuery, TraceNodeSummary, TraceNodeSummaryQuery, SummaryTrend,
   TraceNodeSummaryTrendQuery, SpanTargetSummaryTrendQuery, SpanTargetQuery, SpanSummaryTrendQuery,

@@ -1,4 +1,4 @@
-import { provide, logger, inject, async } from 'midway-mirror';
+import { provide, logger, inject, async } from 'midway-web';
 import * as assert from 'assert';
 import { ModelQueryOptions, ScopeInfo } from '../../interface/models/common';
 import { SandboxApplication } from '../../interface/models/application';

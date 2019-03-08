@@ -1,4 +1,4 @@
-import { provide, async, config, logger, scope, ScopeEnum } from 'midway-mirror';
+import { provide, async, config, logger, scope, ScopeEnum } from 'midway-web';
 import { BaseDataSource } from './base';
 
 @scope(ScopeEnum.Singleton)

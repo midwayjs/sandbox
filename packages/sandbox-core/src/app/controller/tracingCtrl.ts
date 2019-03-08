@@ -1,4 +1,4 @@
-import { get, post, controller, provide, inject, priority } from 'midway-mirror';
+import { get, post, controller, provide, inject, priority } from 'midway-web';
 import {wrapJson} from '../../core/util/util';
 
 @priority(0)

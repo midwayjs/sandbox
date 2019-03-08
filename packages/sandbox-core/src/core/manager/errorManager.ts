@@ -1,4 +1,4 @@
-import { logger, provide, inject, async } from 'midway-mirror';
+import { logger, provide, inject, async } from 'midway-web';
 import * as _ from 'lodash';
 import * as Interface from '../../interface/services/IErrorService';
 import * as Sequelize from 'sequelize';

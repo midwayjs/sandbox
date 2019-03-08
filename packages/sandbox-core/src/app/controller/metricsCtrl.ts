@@ -1,4 +1,4 @@
-import { inject, get, controller, provide, priority } from 'midway-mirror';
+import { inject, get, controller, provide, priority } from 'midway-web';
 
 import {MetricsUtils} from '../util/metricsUtils';
 import {MetricNameJSON} from '../../interface/services/common';

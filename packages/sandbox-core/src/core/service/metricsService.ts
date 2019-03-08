@@ -1,4 +1,4 @@
-import { provide, inject } from 'midway-mirror';
+import { provide, inject } from 'midway-web';
 import { ComplexSelector, MetricsNamesSelector, IndicatorResult, TimeWindowOptions,
   AppSelector } from '../../interface/services/common';
 import {TSDB} from '../dataSource/tsdb';

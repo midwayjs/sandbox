@@ -1,4 +1,4 @@
-import { providerWrapper, IApplicationContext } from 'midway-mirror';
+import { providerWrapper, IApplicationContext } from 'midway-web';
 import * as Sequelize from 'sequelize';
 import { CoreDBDataSource } from '../../dataSource/core';
 
