@@ -89,7 +89,8 @@ export class ErrorManager {
 
     return this.errorModel.findAndCount({
       where: { [Sequelize.Op.and]: conditions },
-      offset: options.page - 1,
+      order: [[ 'timestamp', 'desc' ]],
+      offset: (options.page - 1) * options.pageSize,
       limit: options.pageSize,
       raw: true,
     });
