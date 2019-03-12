@@ -318,26 +318,28 @@ describe('metricsService.test.ts', () => {
 
   it('should be ok for convertTagsToFilters()', async () => {
     const metricsService: MetricsService = await getInstance('metricsService');
-    const queries = [
-      {
-        tags: {
-          scopeName: 'test-scope-name',
-          hostname: undefined,
-          ip: '192.168.1.1|192.168.2.2',
-        },
+    const tags = {
+        scopeName: 'test-scope-name',
+        ip: '192.168.1.1|192.168.2.2',
+    };
+    const groupby = ['hostname'];
+    const filters = metricsService.convertTagsToFilters(tags, groupby);
+
+    assert.deepEqual(filters, [
+      { type: 'literal_or',
+        tagk: 'scopeName',
+        filter: 'test-scope-name',
+        groupBy: false,
       },
-      {
-        tags: {
-          scope: 'test-scope',
-          ip: '192.168.*',
-        },
-      }
-    ];
-    metricsService.convertTagsToFilters(queries);
-    assert(queries.every((q) => q.tags === undefined));
-    assert(queries.every((q) => (q as any).filters));
-    assert((queries[0] as any).filters.every((f) => f.type === 'literal_or'));
-    assert((queries[1] as any).filters.some((f) => f.type === 'wildcard'));
+      { type: 'literal_or',
+        tagk: 'ip',
+        filter: '192.168.1.1|192.168.2.2',
+        groupBy: false,
+      },
+      { type: 'wildcard',
+        tagk: 'hostname',
+        filter: '*',
+        groupBy: true }]);
   });
 
 });
