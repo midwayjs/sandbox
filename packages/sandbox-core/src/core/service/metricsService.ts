@@ -155,7 +155,7 @@ export class MetricsService implements IMetricsService {
       };
     }).filter((t) => t);
     // 处理 groupBy 的情况
-    if (groupBys instanceof Array) {
+    if (Array.isArray(groupBys)) {
       filters.push(...groupBys.map((key) => {
         return {
           type: 'wildcard',
