@@ -58,7 +58,8 @@ CREATE TABLE `sandbox`.`sandbox_galaxy_sls_errors` (
 `error_message` mediumtext,
 `version` int(11) DEFAULT NULL,
 `trace_id` varchar(256) DEFAULT NULL,
-`pid` varchar(256) DEFAULT NULL
+`pid` varchar(256) DEFAULT NULL,
+`method` varchar(64) DEFAULT NULL
 ) ENGINE=innoDB DEFAULT CHARSET=utf8mb4 COMMENT='sls 采集的错误日志';
 
 CREATE TABLE `sandbox`.`sandbox_applications` (

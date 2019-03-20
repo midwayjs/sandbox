@@ -25,6 +25,7 @@ export interface QueryErrorOptions extends PaginationOptions, TimeWindowOptions 
   pandora?: boolean;
   pageSize?: number;
   page?: number;
+  level?: string;
 }
 
 export interface ErrorSelector {
