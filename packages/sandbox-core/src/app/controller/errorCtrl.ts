@@ -29,6 +29,7 @@ export class ErrorCtrl {
     const logPath: string = _.trim(ctx.request.query.logPath || '');
     const ip: string = _.trim(ctx.request.query.ip || '');
     const keyword: string = _.trim(ctx.request.query.keyword) || '';
+    const level: string = _.trim(ctx.request.query.level) || '';
     const pageSize: number = parseInt(ctx.request.query.pageSize, 10);
     const page: number = parseInt(ctx.request.query.page, 10);
     const ets: string = ctx.request.query.errType;
@@ -36,10 +37,10 @@ export class ErrorCtrl {
       startTime: _s.valueOf(),
       endTime: _e.valueOf(),
       errType: (_.includes(ets, ',') ? (ets || '').split(',') : (ets ? [ets] : [])),
-      scope, scopeName, env,
+      scope, scopeName, env, level,
       logPath, ip, keyword, pageSize, page,
     };
-    this.logger.info('[Controller:queryErrors:options]', options);
+    this.logger.info('[Controller:queryErrors:options]', JSON.stringify(options));
     try {
       ctx.body = _.extend({success: true}, {data: await this.errorServ.queryErrors(options)});
     } catch (e) {
@@ -61,8 +62,13 @@ export class ErrorCtrl {
     const scope: string = _.trim(ctx.request.query.scope || '');
     const scopeName: string = _.trim(ctx.request.query.scopeName || '');
     const env: string = _.trim(ctx.request.query.env || '');
+    const keyword: string = _.trim(ctx.request.query.keyword) || '';
+    const ip: string = _.trim(ctx.request.query.ip || '');
+    const logPath: string = _.trim(ctx.request.query.logPath || '');
+    const level: string = _.trim(ctx.request.query.level) || '';
     const options: Interface.QueryErrorOptions = {
       startTime, endTime, scope, scopeName, env,
+      keyword, ip, logPath, level,
     };
     const data = await this.errorServ.queryErrorTypes(options);
     ctx.body = {

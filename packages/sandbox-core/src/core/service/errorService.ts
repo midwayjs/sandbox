@@ -14,18 +14,14 @@ export class ErrorService implements Interface.IErrorService {
   protected errorManager: ErrorManager;
 
   async queryErrors(options: Interface.QueryErrorOptions): Promise<PaginationResult<ErrorRecord>> {
-    this.logger.info('[Service:API:queryErrors:params:]', options);
-    return this.errorManager.findErrors(options).then((data) => {
-      return data;
-    });
+    this.logger.info('[Service:API:queryErrors:params:]', JSON.stringify(options));
+    return this.errorManager.findErrors(options);
   }
 
   async queryErrorTypes(
     options: Interface.QueryErrorOptions,
   ): Promise<Interface.QueryErrorTypes> {
-    return this.errorManager.findErrorTypes(options).then((data) => {
-      return data;
-    });
+    return this.errorManager.findErrorTypes(options);
   }
 
 }

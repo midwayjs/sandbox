@@ -68,6 +68,10 @@ export async function factory(context: IApplicationContext) {
       type: Sequelize.TEXT,
       field: 'log_path',
     },
+    level: {
+      type: Sequelize.STRING(64),
+      field: 'method',
+    },
   }, {
     timestamps: false,
     underscored: false,

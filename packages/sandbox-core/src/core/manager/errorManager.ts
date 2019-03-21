@@ -18,6 +18,29 @@ export class ErrorManager {
   protected errorModel;
 
   public async findErrors(options: Interface.QueryErrorOptions) {
+    const conditions = this.buildSearchConditions(options);
+
+    return this.errorModel.findAndCount({
+      where: { [Sequelize.Op.and]: conditions },
+      order: [[ 'timestamp', 'desc' ]],
+      offset: (options.page - 1) * options.pageSize,
+      limit: options.pageSize,
+      raw: true,
+    });
+  }
+
+  public async findErrorTypes(options: Interface.QueryErrorOptions) {
+    const required = this.buildSearchConditions(options);
+
+    const tasks: any[] = [
+      this.findErrorPaths(required),
+      this.findErrorTypeBy(required),
+      this.findErrorTypeDist(required),
+    ];
+    return Promise.all(tasks).catch((err) => this.logger.error(err));
+  }
+
+  protected buildSearchConditions(options: Interface.QueryErrorOptions) {
     const conditions: any[] = [
       {scope: options.scope},
       {scopeName: options.scopeName},
@@ -29,11 +52,15 @@ export class ErrorManager {
     ];
 
     if (options.ip) { conditions.push({ip: options.ip}); }
+    if (options.level) { conditions.push({ level: options.level }); }
+    if (options.logPath) { conditions.push({ logPath: options.logPath }); }
 
-    const ors: any[] = [];
     if (options.errType && options.errType.length > 0 && _.isArray(options.errType)) {
-      _.each(options.errType, (et) => ors.push({errorType: et}));
-      conditions.push({[Sequelize.Op.or]: ors});
+      conditions.push({
+        errorType: {
+          [Sequelize.Op.in]: options.errType,
+        },
+      });
     }
 
     // 关键字搜索
@@ -87,34 +114,7 @@ export class ErrorManager {
       }
     }
 
-    return this.errorModel.findAndCount({
-      where: { [Sequelize.Op.and]: conditions },
-      order: [[ 'timestamp', 'desc' ]],
-      offset: (options.page - 1) * options.pageSize,
-      limit: options.pageSize,
-      raw: true,
-    });
-  }
-
-  public async findErrorTypes(options: Interface.QueryErrorOptions) {
-
-    const st: number = options.startTime;
-    const et: number = options.endTime;
-
-    const required: object[] = [
-      {scope: options.scope},
-      {scopeName: options.scopeName},
-      {env: options.env},
-      {timestamp: {
-          [Sequelize.Op.gte]: st, [Sequelize.Op.lte]: et,
-        }},
-    ];
-    const tasks: any[] = [
-      this.findErrorPaths(required),
-      this.findErrorTypeBy(required),
-      this.findErrorTypeDist(required),
-    ];
-    return Promise.all(tasks).catch((err) => this.logger.error(err));
+    return conditions;
   }
 
   private findErrorPaths(required: object[]) {
