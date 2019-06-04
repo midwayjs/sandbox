@@ -24,4 +24,12 @@ export class RemoteDebugService implements IRemoteDebugService {
     return debuggableProcesses;
   }
 
+  async getInspectorState(options: HostSelector & AppSelector) {
+    return this.pandoraAdapter.getInspectorState(options);
+  }
+
+  async closeDebugPortByHost(options: HostSelector & AppSelector) {
+    return this.pandoraAdapter.closeDebugPortByHost(options);
+  }
+
 }

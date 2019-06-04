@@ -64,4 +64,28 @@ export class PandoraAdapter implements IPandoraAdapter {
 
   }
 
+  async getInspectorState(options: HostSelector & AppSelector): Promise<{ v: number, opened: boolean }> {
+    const url = `/process?appName=${options.scopeName}`;
+    const debuggableProcesses = (await this.invokeRestful(options, url)).data;
+    if (debuggableProcesses[0].v >= 2) {
+      const opened = debuggableProcesses.some((proc) => proc.inspectorUrl);
+      return { v: debuggableProcesses[0].v, opened };
+    } else {
+      return { v: 1, opened: true };
+    }
+  }
+
+  async closeDebugPortByHost(options: HostSelector & AppSelector): Promise<{ v: number, opened: boolean }> {
+    const url = `/process?appName=${options.scopeName}`;
+    const debuggableProcesses = (await this.invokeRestful(options, url)).data;
+
+    if (debuggableProcesses[0].v >= 2) {
+      await Promise.all(debuggableProcesses.map((process) => {
+        return this.invokeRestful(options, `/remote-debug/close-port?pid=${process.pid}`);
+      }));
+    }
+
+    return this.getInspectorState(options);
+  }
+
 }
