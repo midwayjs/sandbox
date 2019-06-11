@@ -1,5 +1,5 @@
 import { provide, inject } from 'midway-web';
-import { Op, FindOptions, UpdateOptions } from 'sequelize';
+import { Op, FindOptions, UpdateOptions, WhereAttributeHash } from 'sequelize';
 import { SandboxApplication } from '../../interface/models/application';
 import { FindAndCountAllResult, ScopeInfo } from '../../interface/models/common';
 
@@ -35,7 +35,7 @@ export class ApplicationManager {
     return this.list(condition);
   }
 
-  public async findByScope(scopeInfo: ScopeInfo): Promise<SandboxApplication | null> {
+  public async findByScope(scopeInfo: ScopeInfo & WhereAttributeHash): Promise<SandboxApplication | null> {
     const condition: FindOptions = {
       where: scopeInfo,
       raw: true,

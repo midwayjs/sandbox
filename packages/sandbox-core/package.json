@@ -1,6 +1,6 @@
 {
   "name": "sandbox-core",
-  "version": "0.0.22",
+  "version": "0.0.23-beta.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "dependencies": {
@@ -11,7 +11,7 @@
     "midway-web": "latest",
     "moment": "^2.22.2",
     "mysql2": "^1.5.3",
-    "sequelize": "^5.3.0",
+    "sequelize": "^5.8.8",
     "urllib": "^2.29.0",
     "ws": "^7.0.0"
   },

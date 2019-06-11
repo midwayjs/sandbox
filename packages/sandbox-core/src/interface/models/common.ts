@@ -1,11 +1,9 @@
-import { WhereAttributeHash } from 'sequelize';
-
 export interface FindAndCountAllResult<T> {
   rows: T[];
   count: number;
 }
 
-export interface ScopeInfo extends WhereAttributeHash {
+export interface ScopeInfo {
   scope: string;
   scopeName: string;
   scopeId?: string;
