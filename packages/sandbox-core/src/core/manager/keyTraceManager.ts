@@ -1,5 +1,5 @@
 import { logger, provide, inject } from 'midway-web';
-import { FindAndCountAllResult, ModelQueryOptions } from '../../interface/models/common';
+import { FindAndCountAllResult } from '../../interface/models/common';
 import { FindOptions } from 'sequelize';
 import { KeyTrace } from '../../interface/models/keyTrace';
 import * as md5 from 'md5';
@@ -16,13 +16,13 @@ export class KeyTraceManager {
   @inject()
   protected keyTraceModel;
 
-  public async list(condition: FindOptions<KeyTrace>): Promise<FindAndCountAllResult<KeyTrace>> {
+  public async list(condition: FindOptions): Promise<FindAndCountAllResult<KeyTrace>> {
     return this.keyTraceModel.findAndCount(condition);
   }
 
-  public async listKeyTraces(query: Partial<KeyTrace>, options?: ModelQueryOptions): Promise<FindAndCountAllResult<KeyTrace>> {
+  public async listKeyTraces(query: Partial<KeyTrace>, options?: FindOptions): Promise<FindAndCountAllResult<KeyTrace>> {
     this.logger.info(`list key traces by application: [${query.scopeName}@${query.scope}].`);
-    const condition: FindOptions<KeyTrace> = {
+    const condition: FindOptions = {
       attributes: {
         exclude: ['hash'],
       },

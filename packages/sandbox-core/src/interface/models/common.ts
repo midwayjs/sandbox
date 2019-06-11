@@ -1,11 +1,11 @@
-import { FindOptionsAttributesArray } from 'sequelize';
+import { WhereAttributeHash } from 'sequelize';
 
 export interface FindAndCountAllResult<T> {
   rows: T[];
   count: number;
 }
 
-export interface ScopeInfo {
+export interface ScopeInfo extends WhereAttributeHash {
   scope: string;
   scopeName: string;
   scopeId?: string;
@@ -16,11 +16,9 @@ export interface TimeQuery {
   endTime?: string;
 }
 
-export type QueryAttributes = FindOptionsAttributesArray | { include?: FindOptionsAttributesArray, exclude?: string[] };
-
 export interface ModelQueryOptions {
-  attributes?: QueryAttributes;
+  attributes?: string[];
   offset?: number;
   limit?: number;
-  order?: any;
+  order?: string;
 }

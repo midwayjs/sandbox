@@ -1,9 +1,9 @@
 import { logger, provide, inject, init } from 'midway-web';
-import { FindOptions, QueryTypes, Op } from 'sequelize';
+import { FindOptions, QueryTypes, Op, OrderItem } from 'sequelize';
 import { SpanTargetList, TraceNode, TraceNodeQuery, TraceNodeSummary, TraceNodeSummaryQuery, SummaryTrend,
   TraceNodeSummaryTrendQuery, SpanTargetSummaryTrendQuery, SpanTargetQuery, SpanSummaryTrendQuery,
   SpansSummaryTrendResult } from '../../interface/models/traceNode';
-import { FindAndCountAllResult, ModelQueryOptions } from '../../interface/models/common';
+import { FindAndCountAllResult } from '../../interface/models/common';
 import { isEmpty, groupBy, each, round } from 'lodash';
 import { sqlPartTimestampConvertToTs } from '../util/util';
 
@@ -34,7 +34,7 @@ export class TraceNodeManager {
     });
   }
 
-  public async list(condition: FindOptions<TraceNode>): Promise<FindAndCountAllResult<TraceNode>> {
+  public async list(condition: FindOptions): Promise<FindAndCountAllResult<TraceNode>> {
     return this.traceNodeModel.findAndCount(condition);
   }
 
@@ -153,14 +153,14 @@ export class TraceNodeManager {
     return this.instance.query(
       `
       select
-	      T1.rt as rt,
-	      T1.total as total,
-	      T2.success / T1.total as successRate
+        T1.rt as rt,
+        T1.total as total,
+        T2.success / T1.total as successRate
       from
-	      (
-	        select
-	          avg(span_duration) as rt,
-	          count(1) as total
+        (
+          select
+            avg(span_duration) as rt,
+            count(1) as total
           from
             sandbox_galaxy_sls_trace_nodes
           where
@@ -169,10 +169,10 @@ export class TraceNodeManager {
             and scope_name=${scopeName}
             and trace_name=${traceName}
             and span_name=${spanName} ${envFilter} ${hostFilter} ${ipFilter}
-	      ) T1,
-	      (
-	        select
-	          count(1) as success
+        ) T1,
+        (
+          select
+            count(1) as success
           from
             sandbox_galaxy_sls_trace_nodes
           where
@@ -432,7 +432,7 @@ export class TraceNodeManager {
     });
   }
 
-  public async listNodesByTarget(query: SpanTargetQuery, options?: ModelQueryOptions): Promise<FindAndCountAllResult<TraceNode>> {
+  public async listNodesByTarget(query: SpanTargetQuery, options?: FindOptions): Promise<FindAndCountAllResult<TraceNode>> {
     const {
       scope,
       scopeName,
@@ -445,7 +445,7 @@ export class TraceNodeManager {
 
     this.logger.info(`[${scopeName}@${scope}] [${traceName || 'all'}] [${spanName}] [${spanTarget}] [${startTime} - ${endTime}] list nodes.`);
 
-    const condition: FindOptions<TraceNode> = {
+    const condition: FindOptions = {
       where: {
         scope,
         scopeName,
@@ -484,8 +484,8 @@ export class TraceNodeManager {
 
       if (options.order) {
         // like: timestamp,desc|spanDuration,asc
-        condition.order = options.order.split('|').map((or) => {
-          return or.split(',');
+        condition.order = (<string> options.order).split('|').map((or) => {
+          return or.split(',') as OrderItem;
         });
       }
     }
