@@ -2,13 +2,14 @@ import { providerWrapper, IApplicationContext } from 'midway-web';
 import * as Sequelize from 'sequelize';
 import { DWDataSource } from '../../dataSource/dw';
 
+export class SLSErrorModel extends Sequelize.Model {}
+
 export async function factory(context: IApplicationContext) {
   const name = 'slsErrors';
   const dataSource = await context.getAsync<DWDataSource>('dw');
   const instance = dataSource.getInstance();
 
-  /* tslint:disable:variable-name */
-  const SLSErrorModel = instance.define(name, {
+  SLSErrorModel.init({
     timestamp: {
       type: Sequelize.DATE,
       allowNull: false,
@@ -73,6 +74,8 @@ export async function factory(context: IApplicationContext) {
       field: 'method',
     },
   }, {
+    sequelize: instance,
+    modelName: name,
     timestamps: false,
     underscored: false,
     freezeTableName: true,
