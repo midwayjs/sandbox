@@ -40,7 +40,7 @@ export class TraceManager {
   }
 
   async list(condition: FindOptions): Promise<FindAndCountAllResult<Trace>> {
-    return this.traceModel.findAndCount(condition);
+    return this.traceModel.findAndCountAll(condition);
   }
 
   async traceSummaryList(query: TraceQuery, options?: FindOptions): Promise<TraceSummary[]> {

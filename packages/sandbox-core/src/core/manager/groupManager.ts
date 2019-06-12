@@ -14,7 +14,7 @@ export class GroupManager {
   protected groupModel;
 
   public async list(condition: FindOptions): Promise<FindAndCountAllResult<SandboxGroup>> {
-    return this.groupModel.findAndCount(condition);
+    return this.groupModel.findAndCountAll(condition);
   }
 
   public async listByApplication(app: ScopeInfo, options?: FindOptions): Promise<FindAndCountAllResult<SandboxGroup>> {

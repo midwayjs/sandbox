@@ -17,7 +17,7 @@ export class KeyTraceManager {
   protected keyTraceModel;
 
   public async list(condition: FindOptions): Promise<FindAndCountAllResult<KeyTrace>> {
-    return this.keyTraceModel.findAndCount(condition);
+    return this.keyTraceModel.findAndCountAll(condition);
   }
 
   public async listKeyTraces(query: Partial<KeyTrace>, options?: FindOptions): Promise<FindAndCountAllResult<KeyTrace>> {

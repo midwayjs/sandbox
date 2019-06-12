@@ -35,7 +35,7 @@ export class TraceNodeManager {
   }
 
   public async list(condition: FindOptions): Promise<FindAndCountAllResult<TraceNode>> {
-    return this.traceNodeModel.findAndCount(condition);
+    return this.traceNodeModel.findAndCountAll(condition);
   }
 
   public async traceNodeSummaryList(query: TraceNodeQuery): Promise<TraceNodeSummary[]> {

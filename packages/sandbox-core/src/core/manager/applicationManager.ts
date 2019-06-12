@@ -10,7 +10,7 @@ export class ApplicationManager {
   protected applicationModel;
 
   public async list(condition: FindOptions): Promise<FindAndCountAllResult<SandboxApplication>> {
-    return this.applicationModel.findAndCount(condition);
+    return this.applicationModel.findAndCountAll(condition);
   }
 
   public async listByUser(uid: string, options?: FindOptions) {
