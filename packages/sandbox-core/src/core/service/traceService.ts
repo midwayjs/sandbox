@@ -38,7 +38,14 @@ export class TraceService {
 
   async listTraces(options: AppComplexSelector): Promise<ListResult<TraceSummary>> {
     options = this.optionsCheck(options, ['scope', 'scopeName'], 30);
-    const data = await this.traceManager.traceSummaryList(options);
+    const offset = (options.page - 1) * options.pageSize;
+    const limit = options.pageSize;
+
+    const data = await this.traceManager.traceSummaryList(options, {
+      offset,
+      limit,
+      order: (<any> options).order,
+    });
     return {
       total: data.length,
       data,
@@ -83,7 +90,10 @@ export class TraceService {
 
   async listTraceByName(options: AppComplexSelector & TracingSelector): Promise<ListResult<Trace>> {
     options = this.optionsCheck(options, ['scope', 'scopeName'], 30);
-    return this.traceManager.listTraceByName(options).then((data) => {
+    const offset = (options.page - 1) * options.pageSize;
+    const limit = options.pageSize;
+
+    return this.traceManager.listTraceByName(options, { offset, limit }).then((data) => {
       return {
         total: data.count,
         data: data.rows,
@@ -143,7 +153,13 @@ export class TraceService {
 
   async listNodesByTarget(options: AppComplexSelector & TracingSelector): Promise<ListResult<TraceNode>> {
     options = this.optionsCheck(options, ['scope', 'scopeName', 'spanName', 'spanTarget'], 30);
-    return this.traceNodeManager.listNodesByTarget(options).then((data) => {
+    const offset = (options.page - 1) * options.pageSize;
+    const limit = options.pageSize;
+
+    return this.traceNodeManager.listNodesByTarget(options, {
+      offset,
+      limit,
+    }).then((data) => {
       return {
         total: data.count,
         data: data.rows,

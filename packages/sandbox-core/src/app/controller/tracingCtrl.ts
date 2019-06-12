@@ -19,6 +19,7 @@ export class TracingCtrl {
   @get('/listTraces')
   async traces(ctx) {
     const query = ctx.query;
+    this.pageOptionsProcess(query);
     const result = await this.traceService.listTraces(query);
     ctx.body = wrapJson(result);
   }
@@ -75,6 +76,7 @@ export class TracingCtrl {
   @get('/listTraceByName')
   async listTraceByName(ctx) {
     const query = ctx.query;
+    this.pageOptionsProcess(query);
     const result = await this.traceService.listTraceByName(query);
     ctx.body = wrapJson(result);
   }
@@ -110,6 +112,7 @@ export class TracingCtrl {
   @get('/listNodesByTarget')
   async listNodesByTarget(ctx) {
     const query = ctx.query;
+    this.pageOptionsProcess(query);
     const result = await this.traceService.listNodesByTarget(query);
     ctx.body = wrapJson(result);
   }
@@ -126,6 +129,11 @@ export class TracingCtrl {
     const query = ctx.query;
     const result = await this.traceService.traceFlowHistogram(query);
     ctx.body = wrapJson(result);
+  }
+
+  pageOptionsProcess(query: any) {
+    query.page = parseInt(query.page, 10) || 1;
+    query.pageSize = Math.min(parseInt(query.pageSize, 10) || 10, 500) || 10;
   }
 
 }
