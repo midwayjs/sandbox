@@ -1,7 +1,7 @@
 import { provide, inject } from 'midway-web';
-import { Op, FindOptions, UpdateOptions } from 'sequelize';
+import { Op, FindOptions, UpdateOptions, WhereAttributeHash } from 'sequelize';
 import { SandboxApplication } from '../../interface/models/application';
-import { FindAndCountAllResult, ModelQueryOptions, ScopeInfo } from '../../interface/models/common';
+import { FindAndCountAllResult, ScopeInfo } from '../../interface/models/common';
 
 @provide('applicationManager')
 export class ApplicationManager {
@@ -9,12 +9,12 @@ export class ApplicationManager {
   @inject()
   protected applicationModel;
 
-  public async list(condition: FindOptions<SandboxApplication>): Promise<FindAndCountAllResult<SandboxApplication>> {
-    return this.applicationModel.findAndCount(condition);
+  public async list(condition: FindOptions): Promise<FindAndCountAllResult<SandboxApplication>> {
+    return this.applicationModel.findAndCountAll(condition);
   }
 
-  public async listByUser(uid: string, options?: ModelQueryOptions) {
-    const condition: FindOptions<SandboxApplication> = {
+  public async listByUser(uid: string, options?: FindOptions) {
+    const condition: FindOptions = {
       where: {
         [Op.or]: [
           {
@@ -35,8 +35,8 @@ export class ApplicationManager {
     return this.list(condition);
   }
 
-  public async findByScope(scopeInfo: ScopeInfo): Promise<SandboxApplication | null> {
-    const condition: FindOptions<SandboxApplication> = {
+  public async findByScope(scopeInfo: ScopeInfo & WhereAttributeHash): Promise<SandboxApplication | null> {
+    const condition: FindOptions = {
       where: scopeInfo,
       raw: true,
     };

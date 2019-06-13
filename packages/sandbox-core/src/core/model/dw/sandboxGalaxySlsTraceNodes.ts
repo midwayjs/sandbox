@@ -62,7 +62,9 @@ export async function factory(context: IApplicationContext) {
       field: 'span_duration',
     },
     spanError: {
-      type: Sequelize.INTEGER(4),
+      type: Sequelize.INTEGER({
+        length: 4,
+      }),
       allowNull: true,
       defaultValue: 0,
       field: 'span_error',

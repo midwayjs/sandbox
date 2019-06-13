@@ -53,3 +53,5 @@ export * from './core/service/traceService';
 export * from './core/util/util';
 export * from './app/util/date';
 export * from './app/util/metricsUtils';
+
+export * from './core/adapter/pandoraAdapter';

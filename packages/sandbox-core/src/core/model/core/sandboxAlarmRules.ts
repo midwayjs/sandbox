@@ -24,7 +24,10 @@ export async function factory(context: IApplicationContext) {
       field: 'rule_name',
     },
     ruleType: {
-      type: Sequelize.INTEGER(4).UNSIGNED,
+      type: Sequelize.INTEGER({
+        length: 4,
+        unsigned: true,
+      }),
       allowNull: true,
       defaultValue: 1,
       field: 'rule_type',
@@ -47,12 +50,18 @@ export async function factory(context: IApplicationContext) {
       field: 'execute_rule',
     },
     disabled: {
-      type: Sequelize.INTEGER(4).UNSIGNED,
+      type: Sequelize.INTEGER({
+        length: 4,
+        unsigned: true,
+      }),
       allowNull: true,
       defaultValue: 0,
     },
     deleted: {
-      type: Sequelize.INTEGER(4).UNSIGNED,
+      type: Sequelize.INTEGER({
+        length: 4,
+        unsigned: true,
+      }),
       allowNull: true,
       defaultValue: 0,
     },

@@ -2,7 +2,7 @@ import { logger, provide, inject } from 'midway-web';
 import { FindOptions } from 'sequelize';
 import * as md5 from 'md5';
 import { SandboxGroup } from '../../interface/models/group';
-import { FindAndCountAllResult, ModelQueryOptions, ScopeInfo } from '../../interface/models/common';
+import { FindAndCountAllResult, ScopeInfo } from '../../interface/models/common';
 
 @provide('groupManager')
 export class GroupManager {
@@ -13,13 +13,13 @@ export class GroupManager {
   @inject()
   protected groupModel;
 
-  public async list(condition: FindOptions<SandboxGroup>): Promise<FindAndCountAllResult<SandboxGroup>> {
-    return this.groupModel.findAndCount(condition);
+  public async list(condition: FindOptions): Promise<FindAndCountAllResult<SandboxGroup>> {
+    return this.groupModel.findAndCountAll(condition);
   }
 
-  public async listByApplication(app: ScopeInfo, options?: ModelQueryOptions): Promise<FindAndCountAllResult<SandboxGroup>> {
+  public async listByApplication(app: ScopeInfo, options?: FindOptions): Promise<FindAndCountAllResult<SandboxGroup>> {
     this.logger.info(`list groups by application [${app.scopeName}@${app.scope}].`);
-    const condition: FindOptions<SandboxGroup> = {
+    const condition: FindOptions = {
       attributes: {
         exclude: ['hash'],
       },
@@ -38,7 +38,7 @@ export class GroupManager {
   }
 
   public async has(group: Partial<SandboxGroup>): Promise<number> {
-    const condition: FindOptions<SandboxGroup> = {
+    const condition: FindOptions = {
       where: {
         scope: group.scope,
         scopeName: group.scopeName,

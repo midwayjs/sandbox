@@ -34,12 +34,18 @@ export async function factory(context: IApplicationContext) {
       field: 'fault_rule',
     },
     disabled: {
-      type: Sequelize.INTEGER(4).UNSIGNED,
+      type: Sequelize.INTEGER({
+        length: 4,
+        unsigned: true,
+      }),
       allowNull: true,
       defaultValue: 0,
     },
     deleted: {
-      type: Sequelize.INTEGER(4).UNSIGNED,
+      type: Sequelize.INTEGER({
+        length: 4,
+        unsigned: true,
+      }),
       allowNull: true,
       defaultValue: 0,
     },
