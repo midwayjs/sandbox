@@ -32,17 +32,15 @@ export class DebugServer extends EventEmitter {
 
   }
 
-  public handleWebSocketConnection(socket, request) {
+  public handleWebSocketConnection(ws, request) {
 
     try {
-
-      const upgradeReq = socket.upgradeReq;
-      const url = upgradeReq.url;
+      const url = request.url;
       if (!url.startsWith('/remoteDebug')) {
-        socket.terminate();
+        ws.terminate();
         return;
       }
-      socket.pause();
+      ws._socket.pause();
       const query = QueryString.parse(Url.parse(url).query);
       const tokenRaw: string = query.token as any;
       const info = JSON.parse(Cipher.decrypt(tokenRaw));
@@ -54,13 +52,13 @@ export class DebugServer extends EventEmitter {
         debugPort: 5858,
         host: '127.0.0.1', ...info};
 
-      this.createChromiumSession(config, socket).catch((err) => {
-        socket.terminate();
+      this.createChromiumSession(config, ws).catch((err) => {
+        ws.terminate();
         this.logger.error(err);
       });
 
     } catch (err) {
-      socket.terminate();
+      ws.terminate();
       this.logger.error(err);
     }
   }
@@ -84,7 +82,7 @@ export class DebugServer extends EventEmitter {
 
     const targetWs = new WebSocket(wsUrl);
     targetWs.on('open', () => {
-      wsConnection.resume();
+      wsConnection._socket.resume();
     });
 
     wsConnection.on('message', (data) => {
