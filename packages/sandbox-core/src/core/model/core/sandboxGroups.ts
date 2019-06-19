@@ -2,13 +2,14 @@ import { providerWrapper, IApplicationContext } from 'midway-web';
 import * as Sequelize from 'sequelize';
 import { CoreDBDataSource } from '../../dataSource/core';
 
+export class GroupModel extends Sequelize.Model {}
+
 export async function factory(context: IApplicationContext) {
   const name = 'groups';
   const dataSource = await context.getAsync<CoreDBDataSource>('coreDB');
   const instance = dataSource.getInstance();
 
-  /* tslint:disable:variable-name */
-  const GroupModel = instance.define(name, {
+  GroupModel.init({
     scope: {
       type: Sequelize.STRING(128),
       allowNull: false,
@@ -29,7 +30,10 @@ export async function factory(context: IApplicationContext) {
       field: 'host_list',
     },
     deleted: {
-      type: Sequelize.INTEGER(4).UNSIGNED,
+      type: Sequelize.INTEGER({
+        length: 4,
+        unsigned: true,
+      }),
       allowNull: true,
       defaultValue: 0,
     },
@@ -48,6 +52,8 @@ export async function factory(context: IApplicationContext) {
       allowNull: false,
     },
   }, {
+    sequelize: instance,
+    modelName: name,
     timestamps: true,
     createdAt: 'gmt_create',
     updatedAt: 'gmt_modified',

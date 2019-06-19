@@ -2,13 +2,14 @@ import { providerWrapper, IApplicationContext } from 'midway-web';
 import * as Sequelize from 'sequelize';
 import { DWDataSource } from '../../dataSource/dw';
 
+export class SLSTraceNodeModel extends Sequelize.Model {}
+
 export async function factory(context: IApplicationContext) {
   const name = 'slsTraceNodes';
   const dataSource = await context.getAsync<DWDataSource>('dw');
   const instance = dataSource.getInstance();
 
-  /* tslint:disable:variable-name */
-  const SLSTraceNodeModel = instance.define(name, {
+  SLSTraceNodeModel.init({
     timestamp: {
       type: Sequelize.DATE,
       allowNull: false,
@@ -62,7 +63,9 @@ export async function factory(context: IApplicationContext) {
       field: 'span_duration',
     },
     spanError: {
-      type: Sequelize.INTEGER(4),
+      type: Sequelize.INTEGER({
+        length: 4,
+      }),
       allowNull: true,
       defaultValue: 0,
       field: 'span_error',
@@ -96,6 +99,8 @@ export async function factory(context: IApplicationContext) {
       field: 'span_rpcid',
     },
   }, {
+    sequelize: instance,
+    modelName: name,
     timestamps: false,
     underscored: false,
     freezeTableName: true,

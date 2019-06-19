@@ -37,8 +37,9 @@ export class TraceService {
   }
 
   async listTraces(options: AppComplexSelector): Promise<ListResult<TraceSummary>> {
-    options = this.optionsCheck(options, ['scope', 'scopeName'], 30);
-    const data = await this.traceManager.traceSummaryList(options);
+    const _options = this.optionsCheck(options, ['scope', 'scopeName'], 30);
+
+    const data = await this.traceManager.traceSummaryList(_options);
     return {
       total: data.length,
       data,
@@ -46,12 +47,14 @@ export class TraceService {
   }
 
   async traceDetail(options: AppComplexSelector & TracingSelector): Promise<Trace> {
-    options = this.optionsCheck(options, ['scope', 'scopeName', 'startTime', 'endTime', 'uuid'], 30);
-    return this.traceManager.traceDetail(options);
+    const _options = this.optionsCheck(options, ['scope', 'scopeName', 'startTime', 'endTime', 'uuid'], 30);
+
+    return this.traceManager.traceDetail(_options);
   }
 
   async toggleTraceFocus(keyTrace: Partial<KeyTrace>): Promise<[KeyTrace, boolean]> {
     keyTrace = this.optionsCheck(keyTrace, ['scope', 'scopeName', 'traceName']);
+
     return this.keyTraceManager.upsert({
       scope: keyTrace.scope,
       scopeName: keyTrace.scopeName,
@@ -61,19 +64,20 @@ export class TraceService {
   }
 
   async traceTotalitySummary(options: AppComplexSelector): Promise<TraceSummary> {
-    options = this.optionsCheck(options, ['scope', 'scopeName'], 30);
-    return this.traceManager.traceTotalitySummary(options);
+    const _options = this.optionsCheck(options, ['scope', 'scopeName'], 30);
+    return this.traceManager.traceTotalitySummary(_options);
   }
 
   async spanTotalitySummary(options: AppComplexSelector): Promise<TraceNodeSummary> {
-    options = this.optionsCheck(options, ['scope', 'scopeName'], 30);
+    const _options = this.optionsCheck(options, ['scope', 'scopeName'], 30);
 
-    return this.traceNodeManager.spanTotalitySummary(options);
+    return this.traceNodeManager.spanTotalitySummary(_options);
   }
 
   async traceSummaryTrend(options: AppComplexSelector): Promise<ListResult<TraceSummaryTrend>> {
-    options = this.optionsCheck(options, ['scope', 'scopeName'], 30, 60);
-    return this.traceManager.traceSummaryTrend(options).then((data) => {
+    const _options = this.optionsCheck(options, ['scope', 'scopeName'], 30, 60);
+
+    return this.traceManager.traceSummaryTrend(_options).then((data) => {
       return {
         total: data.length,
         data,
@@ -82,8 +86,9 @@ export class TraceService {
   }
 
   async listTraceByName(options: AppComplexSelector & TracingSelector): Promise<ListResult<Trace>> {
-    options = this.optionsCheck(options, ['scope', 'scopeName'], 30);
-    return this.traceManager.listTraceByName(options).then((data) => {
+    const _options = this.optionsCheck(options, ['scope', 'scopeName'], 30);
+
+    return this.traceManager.listTraceByName(_options).then((data) => {
       return {
         total: data.count,
         data: data.rows,
@@ -92,13 +97,15 @@ export class TraceService {
   }
 
   async traceSummary(options: AppComplexSelector & TracingSelector): Promise<TraceSummary> {
-    options = this.optionsCheck(options, ['scope', 'scopeName', 'traceName'], 30);
-    return this.traceManager.traceSummary(options);
+    const _options = this.optionsCheck(options, ['scope', 'scopeName', 'traceName'], 30);
+
+    return this.traceManager.traceSummary(_options);
   }
 
   async traceNodeSummaryList(options: AppComplexSelector & TracingSelector): Promise<ListResult<TraceNodeSummary>> {
-    options = this.optionsCheck(options, ['scope', 'scopeName'], 30);
-    return this.traceNodeManager.traceNodeSummaryList(options).then((data) => {
+    const _options = this.optionsCheck(options, ['scope', 'scopeName'], 30);
+
+    return this.traceNodeManager.traceNodeSummaryList(_options).then((data) => {
       return {
         total: data.length,
         data,
@@ -107,13 +114,15 @@ export class TraceService {
   }
 
   async traceNodeSummary(options: AppComplexSelector & TracingSelector): Promise<TraceNodeSummary> {
-    options = this.optionsCheck(options, ['scope', 'scopeName', 'spanName'], 30);
-    return this.traceNodeManager.traceNodeSummary(options);
+    const _options = this.optionsCheck(options, ['scope', 'scopeName', 'spanName'], 30);
+
+    return this.traceNodeManager.traceNodeSummary(_options);
   }
 
   async traceNodeSummaryTrend(options: AppComplexSelector & TracingSelector): Promise<ListResult<SummaryTrend>> {
-    options = this.optionsCheck(options, ['scope', 'scopeName', 'spanName'], 30, 60);
-    return this.traceNodeManager.traceNodeSummaryTrend(options).then((data) => {
+    const _options = this.optionsCheck(options, ['scope', 'scopeName', 'spanName'], 30, 60);
+
+    return this.traceNodeManager.traceNodeSummaryTrend(_options).then((data) => {
       return {
         total: data.length,
         data,
@@ -122,8 +131,9 @@ export class TraceService {
   }
 
   async spanTargetList(options: AppComplexSelector & TracingSelector): Promise<ListResult<SpanTargetList>> {
-    options = this.optionsCheck(options, ['scope', 'scopeName', 'spanName'], 30);
-    return this.traceNodeManager.spanTargetList(options).then((data) => {
+    const _options = this.optionsCheck(options, ['scope', 'scopeName', 'spanName'], 30);
+
+    return this.traceNodeManager.spanTargetList(_options).then((data) => {
       return {
         total: data.length,
         data,
@@ -132,8 +142,9 @@ export class TraceService {
   }
 
   async spanTargetSummaryTrend(options: AppComplexSelector & TracingSelector): Promise<ListResult<SummaryTrend>> {
-    options = this.optionsCheck(options, ['scope', 'scopeName', 'spanName', 'spanTarget'], 30, 60);
-    return this.traceNodeManager.spanTargetSummaryTrend(options).then((data) => {
+    const _options = this.optionsCheck(options, ['scope', 'scopeName', 'spanName', 'spanTarget'], 30, 60);
+
+    return this.traceNodeManager.spanTargetSummaryTrend(_options).then((data) => {
       return {
         total: data.length,
         data,
@@ -142,8 +153,9 @@ export class TraceService {
   }
 
   async listNodesByTarget(options: AppComplexSelector & TracingSelector): Promise<ListResult<TraceNode>> {
-    options = this.optionsCheck(options, ['scope', 'scopeName', 'spanName', 'spanTarget'], 30);
-    return this.traceNodeManager.listNodesByTarget(options).then((data) => {
+    const _options = this.optionsCheck(options, ['scope', 'scopeName', 'spanName', 'spanTarget'], 30);
+
+    return this.traceNodeManager.listNodesByTarget(_options).then((data) => {
       return {
         total: data.count,
         data: data.rows,
@@ -152,14 +164,15 @@ export class TraceService {
   }
 
   async spansSummaryTrend(options: AppComplexSelector & TracingSelector): Promise<SpansSummaryTrendResult> {
-    options = this.optionsCheck(options, ['scope', 'scopeName'], 30, 60);
+    const _options = this.optionsCheck(options, ['scope', 'scopeName'], 30, 60);
 
-    return this.traceNodeManager.spansSummaryTrend(options);
+    return this.traceNodeManager.spansSummaryTrend(_options);
   }
 
   async traceFlowHistogram(options: AppComplexSelector): Promise<ListResult<any>> {
-    options = this.optionsCheck(options, ['scope', 'scopeName', 'env'], 30);
-    return this.traceManager.traceFlowHistogram(options).then((data) => {
+    const _options = this.optionsCheck(options, ['scope', 'scopeName', 'env'], 30);
+
+    return this.traceManager.traceFlowHistogram(_options).then((data) => {
       return {
         total: data.length,
         data,
@@ -167,7 +180,7 @@ export class TraceService {
     });
   }
 
-  private optionsCheck(options, required: string[], defaultDuration?: number, defaultInterval?: number): AppComplexSelector & AppSelector {
+  private optionsCheck(options, required: string[], defaultDuration?: number, defaultInterval?: number): any {
     required.forEach((r) => {
       assert(options[r], `${r} is needed.`);
     });

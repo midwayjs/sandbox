@@ -1,6 +1,6 @@
 import { logger, provide, inject, init } from 'midway-web';
-import { FindAndCountAllResult, ModelQueryOptions } from '../../interface/models/common';
-import { FindOptions, QueryTypes, Op, WhereOptions } from 'sequelize';
+import { FindAndCountAllResult } from '../../interface/models/common';
+import { FindOptions, QueryTypes, Op, OrderItem } from 'sequelize';
 import {
   Trace,
   TraceQuery,
@@ -39,11 +39,11 @@ export class TraceManager {
     });
   }
 
-  async list(condition: FindOptions<Trace>): Promise<FindAndCountAllResult<Trace>> {
-    return this.traceModel.findAndCount(condition);
+  async list(condition: FindOptions): Promise<FindAndCountAllResult<Trace>> {
+    return this.traceModel.findAndCountAll(condition);
   }
 
-  async traceSummaryList(query: TraceQuery, options?: ModelQueryOptions): Promise<TraceSummary[]> {
+  async traceSummaryList(query: TraceQuery, options?: FindOptions): Promise<TraceSummary[]> {
     this.escape(query, ['scope', 'scopeName', 'startTime', 'endTime', 'env', 'hostname', 'ip']);
     if (options) {
       this.escape(options, ['order', 'limit', 'offset']);
@@ -274,7 +274,7 @@ export class TraceManager {
     });
   }
 
-  async listTraceByName(query: TraceSummaryQuery, options?: ModelQueryOptions): Promise<FindAndCountAllResult<Trace>> {
+  async listTraceByName(query: TraceSummaryQuery, options?: FindOptions): Promise<FindAndCountAllResult<Trace>> {
     const {
       scope,
       scopeName,
@@ -285,7 +285,7 @@ export class TraceManager {
 
     this.logger.info(`[${scopeName}@${scope}] [${traceName || 'all'}] [${startTime} - ${endTime}] list traces.`);
 
-    const condition: FindOptions<Trace> = {
+    const condition: FindOptions = {
       where: {
         scope,
         scopeName,
@@ -322,8 +322,8 @@ export class TraceManager {
 
       if (options.order) {
         // like: timestamp,desc|spanDuration,asc
-        condition.order = options.order.split('|').map((or) => {
-          return or.split(',');
+        condition.order = (<string> options.order).split('|').map((or) => {
+          return or.split(',') as OrderItem;
         });
       }
     }
@@ -426,7 +426,7 @@ export class TraceManager {
 
   async traceDetail(query: TraceDetailQuery): Promise<Trace> {
 
-    const condition: FindOptions<Trace> = {
+    const condition: FindOptions = {
       where: {
         timestamp: {
           [Op.between]: [query.startTime, query.endTime],
@@ -439,11 +439,11 @@ export class TraceManager {
     };
 
     if (query.env) {
-      (condition.where as WhereOptions<Trace>).env = query.env;
+      (condition.where as Partial<Trace>).env = query.env;
     }
 
     if (query.ip) {
-      (condition.where as WhereOptions<Trace>).ip = query.ip;
+      (condition.where as Partial<Trace>).ip = query.ip;
     }
 
     return this.traceModel.findOne(condition);

@@ -2,13 +2,14 @@ import { providerWrapper, IApplicationContext } from 'midway-web';
 import * as Sequelize from 'sequelize';
 import { CoreDBDataSource } from '../../dataSource/core';
 
+export class ApplicationModel extends Sequelize.Model {}
+
 export async function factory(context: IApplicationContext) {
   const name = 'applications';
   const dataSource = await context.getAsync<CoreDBDataSource>('coreDB');
   const instance = dataSource.getInstance();
 
-  /* tslint:disable:variable-name */
-  const ApplicationModel = instance.define(name, {
+  ApplicationModel.init({
     scope: {
       type: Sequelize.STRING(128),
       allowNull: false,
@@ -54,20 +55,28 @@ export async function factory(context: IApplicationContext) {
       allowNull: true,
     },
     deleted: {
-      type: Sequelize.INTEGER(4).UNSIGNED,
+      type: Sequelize.INTEGER({
+        length: 4,
+        unsigned: true,
+      }),
       allowNull: true,
       defaultValue: 0,
     },
     state: {
-      type: Sequelize.INTEGER(4).UNSIGNED,
+      type: Sequelize.INTEGER({
+        length: 4,
+        unsigned: true,
+      }),
       allowNull: false,
     },
   }, {
+    sequelize: instance,
     timestamps: true,
     createdAt: 'gmt_create',
     updatedAt: 'gmt_modified',
     freezeTableName: true,
     tableName: 'sandbox_applications',
+    modelName: name,
   });
 
   return ApplicationModel;

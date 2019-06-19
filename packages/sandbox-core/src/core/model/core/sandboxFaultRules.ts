@@ -2,13 +2,14 @@ import { providerWrapper, IApplicationContext } from 'midway-web';
 import * as Sequelize from 'sequelize';
 import { CoreDBDataSource } from '../../dataSource/core';
 
+export class FaultRuleModel extends Sequelize.Model {}
+
 export async function factory(context: IApplicationContext) {
   const name = 'faultRules';
   const dataSource = await context.getAsync<CoreDBDataSource>('coreDB');
   const instance = dataSource.getInstance();
 
-  /* tslint:disable:variable-name */
-  const FaultRuleModel = instance.define(name, {
+  FaultRuleModel.init({
     scope: {
       type: Sequelize.STRING(128),
       allowNull: false,
@@ -34,16 +35,24 @@ export async function factory(context: IApplicationContext) {
       field: 'fault_rule',
     },
     disabled: {
-      type: Sequelize.INTEGER(4).UNSIGNED,
+      type: Sequelize.INTEGER({
+        length: 4,
+        unsigned: true,
+      }),
       allowNull: true,
       defaultValue: 0,
     },
     deleted: {
-      type: Sequelize.INTEGER(4).UNSIGNED,
+      type: Sequelize.INTEGER({
+        length: 4,
+        unsigned: true,
+      }),
       allowNull: true,
       defaultValue: 0,
     },
   }, {
+    sequelize: instance,
+    modelName: name,
     timestamps: true,
     createdAt: 'gmt_create',
     updatedAt: 'gmt_modified',

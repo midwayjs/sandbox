@@ -20,7 +20,7 @@ export class ErrorManager {
   public async findErrors(options: Interface.QueryErrorOptions) {
     const conditions = this.buildSearchConditions(options);
 
-    return this.errorModel.findAndCount({
+    return this.errorModel.findAndCountAll({
       where: { [Sequelize.Op.and]: conditions },
       order: [[ 'timestamp', 'desc' ]],
       offset: (options.page - 1) * options.pageSize,

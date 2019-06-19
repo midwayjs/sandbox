@@ -1,5 +1,5 @@
 import { init } from 'midway-web';
-import * as Sequelize from 'sequelize';
+import { Sequelize } from 'sequelize';
 import { Options as SequelizeOptions, Sequelize as SequelizeInstance } from 'sequelize';
 
 export class BaseDataSource {
@@ -48,7 +48,6 @@ export class BaseDataSource {
       dialect: 'mysql',
       define: { charset: 'utf8' },
       timezone: '+08:00',
-      operatorsAliases : false,
     };
   }
 }
