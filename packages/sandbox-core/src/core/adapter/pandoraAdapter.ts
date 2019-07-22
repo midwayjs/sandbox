@@ -3,6 +3,7 @@ import {AppSelector, HostSelector} from '../../interface/services/common';
 import {IPandoraAdapter} from '../../interface/adapter/IPandoraAdapter';
 import {IRemoteExecuteAdapter} from '../../interface/adapter/IRemoteExecuteAdapter';
 import {parse as urlparse} from 'url';
+import * as assert from 'assert';
 
 @scope(ScopeEnum.Singleton)
 @provide('pandoraAdapter')
@@ -18,7 +19,12 @@ export class PandoraAdapter implements IPandoraAdapter {
     const pandoraRestfulPort = this.config.restfulPort;
     url = url.replace(/^\//, '');
     const cmd = `curl http://127.0.0.1:${pandoraRestfulPort}/${url} 2>/dev/null`;
-    const res = await this.remoteExecuteAdapter.exec(host, cmd);
+    const res = await this.remoteExecuteAdapter.exec(host, cmd).catch((err) => {
+      if (err.message === 'CALL_ERROR: exit 7') {
+        throw new Error('请求 Pandora 失败，请确保 pandora agent 已正常启动');
+      }
+      throw err;
+    });
     return JSON.parse(res);
   }
 
@@ -26,13 +32,17 @@ export class PandoraAdapter implements IPandoraAdapter {
 
     const { scopeName, ip } = options;
     const url = `/process?appName=${scopeName}`;
-    let debuggableProcesses = (await this.invokeRestful(options, url)).data;
+    let result = await this.invokeRestful(options, url);
+    assert(result.success, 'Pandora 获取 Debug 进程列表失败: ' + result.message);
+    let debuggableProcesses = result.data;
 
     if (debuggableProcesses[0].v >= 2) {
       await Promise.all(debuggableProcesses.map((process) => {
         return this.invokeRestful(options, `/remote-debug/open-port?pid=${process.pid}`);
       }));
-      debuggableProcesses = (await this.invokeRestful(options, url)).data;
+      result = await this.invokeRestful(options, url);
+      assert(result.success, 'Pandora 获取 Debug 进程列表失败: ' + result.message);
+      debuggableProcesses = result.data;
       for (const process of debuggableProcesses) {
         process.debugPort = process.inspectorUrl ? urlparse(process.inspectorUrl).port : null;
       }
