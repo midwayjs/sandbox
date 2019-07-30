@@ -8,6 +8,7 @@ export class RemoteExecuteAdapter {
       return JSON.stringify([{ id: 'd1ba2672-5121-4fd5-969e-78bbb1f64a47' }]);
     } else if (cmd.match(/.*\/process\?appName.*/)) {
       return JSON.stringify({
+        success: true,
         data: [
           { debugPort: 3001 },
           { debugPort: 3002 },
