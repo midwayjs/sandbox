@@ -2,13 +2,14 @@ import { providerWrapper, IApplicationContext } from 'midway-web';
 import * as Sequelize from 'sequelize';
 import { CoreDBDataSource } from '../../dataSource/core';
 
+export class AlarmRuleModel extends Sequelize.Model {}
+
 export async function factory(context: IApplicationContext) {
   const name = 'alarmRules';
   const dataSource = await context.getAsync<CoreDBDataSource>('coreDB');
   const instance = dataSource.getInstance();
 
-  /* tslint:disable:variable-name */
-  const AlarmRuleModel = instance.define(name, {
+  AlarmRuleModel.init({
     scope: {
       type: Sequelize.STRING(128),
       allowNull: false,
@@ -75,11 +76,13 @@ export async function factory(context: IApplicationContext) {
       field: 'action_params',
     },
   }, {
+    sequelize: instance,
     timestamps: true,
     createdAt: 'gmt_create',
     updatedAt: 'gmt_modified',
     freezeTableName: true,
     tableName: 'sandbox_alarm_rules',
+    modelName: name,
   });
 
   return AlarmRuleModel;

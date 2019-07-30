@@ -2,13 +2,14 @@ import { providerWrapper, IApplicationContext } from 'midway-web';
 import * as Sequelize from 'sequelize';
 import { DWDataSource } from '../../dataSource/dw';
 
+export class SLSTraceModel extends Sequelize.Model {}
+
 export async function factory(context: IApplicationContext) {
   const name = 'slsTraces';
   const dataSource = await context.getAsync<DWDataSource>('dw');
   const instance = dataSource.getInstance();
 
-  /* tslint:disable:variable-name */
-  const SLSTraceModel = instance.define(name, {
+  SLSTraceModel.init({
     timestamp: {
       type: Sequelize.DATE,
       allowNull: false,
@@ -70,6 +71,8 @@ export async function factory(context: IApplicationContext) {
       type: Sequelize.INTEGER,
     },
   }, {
+    sequelize: instance,
+    modelName: name,
     timestamps: false,
     underscored: false,
     freezeTableName: true,
