@@ -18,50 +18,63 @@ export class PandoraAdapter implements IPandoraAdapter {
     const pandoraRestfulPort = this.config.restfulPort;
     url = url.replace(/^\//, '');
     const cmd = `curl http://127.0.0.1:${pandoraRestfulPort}/${url} 2>/dev/null`;
-    const res = await this.remoteExecuteAdapter.exec(host, cmd);
+    const res = await this.remoteExecuteAdapter.exec(host, cmd).catch((err) => {
+      if (err.message === 'CALL_ERROR: exit 7') {
+        err.message = '请求 Pandora 失败，请确保 pandora agent 已正常启动';
+      }
+      throw err;
+    });
     return JSON.parse(res);
+  }
+
+  async getProcessesInfo(scopeName: string, ip: string): Promise<any[]> {
+    const result = await this.invokeRestful({ ip }, `/process?appName=${scopeName}`);
+    const processes = result.data;
+    if (!processes || !Array.isArray(processes) || processes.length < 1) {
+      throw new Error('获取 Debug 进程列表失败: ' + JSON.stringify(result));
+    }
+    return processes;
   }
 
   async getDebuggableProcesses(options: HostSelector & AppSelector) {
 
     const { scopeName, ip } = options;
-    const url = `/process?appName=${scopeName}`;
-    let debuggableProcesses = (await this.invokeRestful(options, url)).data;
+    let debuggableProcesses = await this.getProcessesInfo(scopeName, ip);
 
     if (debuggableProcesses[0].v >= 2) {
       await Promise.all(debuggableProcesses.map((process) => {
         return this.invokeRestful(options, `/remote-debug/open-port?pid=${process.pid}`);
       }));
-      debuggableProcesses = (await this.invokeRestful(options, url)).data;
+      debuggableProcesses = await this.getProcessesInfo(scopeName, ip);
       for (const process of debuggableProcesses) {
         process.debugPort = process.inspectorUrl ? urlparse(process.inspectorUrl).port : null;
       }
     }
 
-    const finalRet: any = [];
-    for (const process of debuggableProcesses) {
+    const tasks = debuggableProcesses.map((process) => {
       if (!process.debugPort) {
-         continue;
-       }
+        return null;
+      }
       const cmd = `curl http://127.0.0.1:${process.debugPort}/json/list 2>/dev/null`;
-      const jobResRaw = await this.remoteExecuteAdapter.exec(options, cmd);
-      let listRes;
-      try {
-        listRes = JSON.parse(jobResRaw);
-      } catch (err) {
-        throw new Error('Cannot get debugging info at ' + ip);
-      }
-      if (!listRes || !listRes.length) {
-        throw new Error('Cannot get debugging info at ' + ip);
-      }
-      const uuid: string = listRes[0].id;
-      const wsUrl: string = `ws://${ip}:${process.debugPort}/${uuid}`;
-      process.webSocketDebuggerUrl = wsUrl;
-      finalRet.push(process);
-    }
+      return this.remoteExecuteAdapter.exec(options, cmd)
+        .then((jobResRaw) => {
+          let listRes;
+          try {
+            listRes = JSON.parse(jobResRaw);
+          } catch (err) {
+            throw new Error('Cannot get debugging info at ' + ip);
+          }
+          if (!listRes || !listRes.length) {
+            throw new Error('Cannot get debugging info at ' + ip);
+          }
+          const uuid: string = listRes[0].id;
+          const wsUrl: string = `ws://${ip}:${process.debugPort}/${uuid}`;
+          process.webSocketDebuggerUrl = wsUrl;
+          return process;
+        });
+    }).filter((p) => p);
 
-    return finalRet;
-
+    return Promise.all(tasks) as any;
   }
 
   async getInspectorState(options: HostSelector & AppSelector): Promise<{ v: number, opened: boolean }> {
