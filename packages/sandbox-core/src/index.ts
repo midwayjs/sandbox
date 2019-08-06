@@ -41,6 +41,7 @@ export * from './core/debugServer/cipher';
 
 export * from './core/dataSource/tsdb';
 export * from './core/dataSource/tsdb.core';
+export * from './core/dataSource/base';
 export * from './core/dataSource/core';
 export * from './core/dataSource/dw';
 

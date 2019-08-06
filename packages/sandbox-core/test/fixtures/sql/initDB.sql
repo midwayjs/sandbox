@@ -1,3 +1,5 @@
+SET GLOBAL sql_mode = '';
+
 CREATE DATABASE IF NOT EXISTS sandbox;
 
 CREATE TABLE `sandbox`.`sandbox_galaxy_sls_traces` (
