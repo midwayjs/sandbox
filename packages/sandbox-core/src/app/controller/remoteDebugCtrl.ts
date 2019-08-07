@@ -1,10 +1,7 @@
-import { get, controller, provide, inject, priority } from 'midway-web';
+import { get, inject } from 'midway-web';
 import { RemoteDebugService } from '../../core/service/remoteDebugService';
 import { IPrivilegeAdapter } from '../../interface/adapter/IPrivilegeAdapter';
 
-@priority(0)
-@provide()
-@controller('/v2/api/remotedebug/')
 export class RemoteDebugCtrl {
 
   @inject('remoteDebugService')

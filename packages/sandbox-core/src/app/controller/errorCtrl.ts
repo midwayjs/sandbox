@@ -2,11 +2,8 @@ import * as Interface from '../../interface/services/IErrorService';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
-import { inject, get, controller, provide, logger, priority } from 'midway-web';
+import { inject, get, logger } from 'midway-web';
 
-@priority(0)
-@provide()
-@controller('/v2/api/error/')
 export class ErrorCtrl {
 
   @logger()

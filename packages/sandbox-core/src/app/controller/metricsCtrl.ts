@@ -1,11 +1,8 @@
-import { inject, get, controller, provide, priority } from 'midway-web';
+import { inject, get } from 'midway-web';
 
 import {MetricsUtils} from '../util/metricsUtils';
 import {MetricNameJSON} from '../../interface/services/common';
 
-@priority(0)
-@provide()
-@controller('/v2/api/metrics/')
 export class MetricsCtrl {
 
   @inject('metricsService')
