@@ -5,7 +5,7 @@ import * as assert from 'assert';
 import { KeyTrace } from '../../interface/models/keyTrace';
 import {TraceSummary, Trace, TraceSummaryTrend} from '../../interface/models/trace';
 import * as moment from 'moment';
-import { timeFormat } from '../../app/util/date';
+import { timeFormat, toMoment } from '../../app/util/date';
 import { SpansSummaryTrendResult, SpanTargetList, SummaryTrend,
   TraceNode, TraceNodeSummary } from '../../interface/models/traceNode';
 import {TraceManager} from '../manager/traceManager';
@@ -186,8 +186,15 @@ export class TraceService {
     });
 
     if (defaultDuration) {
-      const endTime = options.endTime || moment();
-      const startTime = options.startTime || moment(endTime).subtract(defaultDuration, 'minutes');
+      let endTime = options.endTime || moment();
+      let startTime = options.startTime || moment(endTime).subtract(defaultDuration, 'minutes');
+
+      startTime = toMoment(startTime);
+      endTime = toMoment(endTime);
+
+      if (endTime.diff(startTime, 'hours') >= 24) {
+        endTime = startTime.clone().subtract(24, 'hours');
+      }
 
       options.startTime = timeFormat(startTime);
       options.endTime = timeFormat(endTime);

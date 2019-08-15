@@ -9,7 +9,10 @@ function _dealStrTimestamp(date) {
 }
 
 export function timeFormat(date): string {
-  date = _dealStrTimestamp(date);
+  return toMoment(date).format('YYYY-MM-DD HH:mm:ss');
+}
 
-  return moment(date).format('YYYY-MM-DD HH:mm:ss');
+export function toMoment(date): moment.Moment {
+  date = _dealStrTimestamp(date);
+  return moment(date);
 }

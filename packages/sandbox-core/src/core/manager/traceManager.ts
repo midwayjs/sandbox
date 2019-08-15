@@ -74,7 +74,7 @@ export class TraceManager {
 
     let sql = `
       select
-        T1.trace_name as traceName,
+        trace_name as traceName,
         rt,
         total,
         if(fail is null, total, total - fail) / total as successRate
@@ -83,7 +83,8 @@ export class TraceManager {
           select
             trace_name,
             avg(trace_duration) as rt,
-            count(1) as total
+            count(1) as total,
+            sum(if(trace_status&12 > 0, 1, 0)) as fail
           from
             sandbox_galaxy_sls_traces
           where
@@ -91,26 +92,13 @@ export class TraceManager {
             and scope=${scope}
             and scope_name=${scopeName} ${envFilter} ${hostFilter} ${ipFilter}
           group by trace_name
-        ) T1
-        left join
-        (
-          select
-            trace_name,
-            count(1) as fail
-          from
-            sandbox_galaxy_sls_traces
-          where
-            timestamp between ${startTime} and ${endTime}
-            and scope=${scope}
-            and scope_name=${scopeName}
-            and (trace_status&4 = 4 or trace_status&8 = 8) ${envFilter} ${hostFilter} ${ipFilter}
-          group by trace_name
-        ) T2
-        on T1.trace_name = T2.trace_name
+        )
       `;
 
     if (options && options.limit !== undefined && options.offset !== undefined && options.order !== undefined) {
       sql += `order by ${options.order} limit ${options.limit} offset ${options.offset}`;
+    } else {
+      sql += 'order by total desc limit 500';
     }
 
     return this.instance.query(
@@ -174,7 +162,7 @@ export class TraceManager {
           timestamp between ${startTime} and ${endTime}
           and scope=${scope}
           and scope_name=${scopeName} ${traceFilter} ${envFilter} ${hostFilter} ${ipFilter}
-      ) T1
+      )
       `,
       {
         type: QueryTypes.SELECT,
@@ -227,7 +215,7 @@ export class TraceManager {
     return this.instance.query(
       `
       select
-        from_unixtime(T1.m_timestamp) as timestamp,
+        from_unixtime(m_timestamp) as timestamp,
         rt,
         total,
         if(fail is null, total, total - fail) / total as successRate
@@ -236,7 +224,8 @@ export class TraceManager {
           select
             floor(${sqlPartTimestampConvertToTs} / 60) * 60 as m_timestamp,
             avg(trace_duration) as rt,
-            count(1) as total
+            count(1) as total,
+            sum(if(trace_status&12 > 0, 1, 0)) as fail
           from sandbox_galaxy_sls_traces
           where
             timestamp between ${startTime} and ${endTime}
@@ -244,23 +233,8 @@ export class TraceManager {
             and scope_name=${scopeName} ${traceFilter} ${envFilter} ${hostFilter} ${ipFilter}
           group by
             m_timestamp
-        ) T1
-        left join
-        (
-          select
-            floor(${sqlPartTimestampConvertToTs} / 60) * 60 as m_timestamp,
-            count(1) as fail
-          from sandbox_galaxy_sls_traces
-          where
-            timestamp between ${startTime} and ${endTime}
-            and scope=${scope}
-            and scope_name=${scopeName}
-            and (trace_status&4 = 4 or trace_status&8 = 8) ${traceFilter} ${envFilter} ${hostFilter} ${ipFilter}
-          group by
-            m_timestamp
-        ) T2
-        on T1.m_timestamp = T2.m_timestamp
-      where T1.m_timestamp = floor(T1.m_timestamp / ${interval}) * ${interval}
+        )
+      where m_timestamp = floor(m_timestamp / ${interval}) * ${interval}
       order by timestamp desc
       `,
       {
@@ -328,6 +302,7 @@ export class TraceManager {
       }
     }
 
+    condition.limit = condition.limit ? Math.min(condition.limit, 500) : 500;
     return this.list(condition);
   }
 
@@ -373,7 +348,7 @@ export class TraceManager {
           timestamp between ${startTime} and ${endTime}
           and scope=${scope}
           and scope_name=${scopeName} ${envFilter} ${hostFilter} ${ipFilter}
-      ) T1
+      )
       `,
       {
         type: QueryTypes.SELECT,
