@@ -74,10 +74,10 @@ export class TraceManager {
 
     let sql = `
       select
-        trace_name as traceName,
-        rt,
-        total,
-        if(fail is null, total, total - fail) / total as successRate
+        T1.trace_name as traceName,
+        T1.rt,
+        T1.total,
+        if(T1.fail is null, T1.total, T1.total - T1.fail) / T1.total as successRate
       from
         (
           select
@@ -92,7 +92,7 @@ export class TraceManager {
             and scope=${scope}
             and scope_name=${scopeName} ${envFilter} ${hostFilter} ${ipFilter}
           group by trace_name
-        )
+        ) T1
       `;
 
     if (options && options.limit !== undefined && options.offset !== undefined && options.order !== undefined) {
@@ -149,9 +149,9 @@ export class TraceManager {
     return this.instance.query(
       `
       select
-        rt,
-        total,
-        (total - fail) / total as successRate
+        T1.rt,
+        T1.total,
+        (T1.total - T1.fail) / T1.total as successRate
       from (
         select
           avg(trace_duration) as rt,
@@ -162,7 +162,7 @@ export class TraceManager {
           timestamp between ${startTime} and ${endTime}
           and scope=${scope}
           and scope_name=${scopeName} ${traceFilter} ${envFilter} ${hostFilter} ${ipFilter}
-      )
+      ) T1
       `,
       {
         type: QueryTypes.SELECT,
@@ -215,10 +215,10 @@ export class TraceManager {
     return this.instance.query(
       `
       select
-        from_unixtime(m_timestamp) as timestamp,
-        rt,
-        total,
-        if(fail is null, total, total - fail) / total as successRate
+        from_unixtime(T1.m_timestamp) as timestamp,
+        T1.rt,
+        T1.total,
+        if(T1.fail is null, T1.total, T1.total - T1.fail) / T1.total as successRate
       from
         (
           select
@@ -233,8 +233,8 @@ export class TraceManager {
             and scope_name=${scopeName} ${traceFilter} ${envFilter} ${hostFilter} ${ipFilter}
           group by
             m_timestamp
-        )
-      where m_timestamp = floor(m_timestamp / ${interval}) * ${interval}
+        ) T1
+      where T1.m_timestamp = floor(T1.m_timestamp / ${interval}) * ${interval}
       order by timestamp desc
       `,
       {
@@ -335,9 +335,9 @@ export class TraceManager {
     return this.instance.query(
       `
       select
-        rt,
-        total,
-        (total - fail) / total as successRate
+        T1.rt,
+        T1.total,
+        (T1.total - T1.fail) / T1.total as successRate
       from (
         select
           avg(trace_duration) as rt,
@@ -348,7 +348,7 @@ export class TraceManager {
           timestamp between ${startTime} and ${endTime}
           and scope=${scope}
           and scope_name=${scopeName} ${envFilter} ${hostFilter} ${ipFilter}
-      )
+      ) T1
       `,
       {
         type: QueryTypes.SELECT,

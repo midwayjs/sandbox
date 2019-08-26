@@ -78,7 +78,7 @@ export class MetricsService implements IMetricsService {
   async queryMetricsTrend(options: ComplexSelector & MetricsNamesSelector & TimeWindowOptions & AppSelector): Promise<IndicatorResult[]> {
 
     const {
-      scope,
+      scope, version, pid,
       scopeName, env, ip, hostname,
       startTime, endTime,
       metricsNames,
@@ -87,7 +87,7 @@ export class MetricsService implements IMetricsService {
     const queries = [];
     for (const metricsNameJSON of metricsNames) {
       const filters = this.convertTagsToFilters({
-        scope, scope_name: scopeName, env, ip, hostname,
+        scope, scope_name: scopeName, env, ip, hostname, version, pid,
       }, metricsNameJSON.groupBy);
 
       queries.push({

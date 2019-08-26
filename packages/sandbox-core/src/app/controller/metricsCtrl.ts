@@ -60,14 +60,14 @@ export class MetricsCtrl {
   async queryMetricsTrend(ctx) {
 
     const query = ctx.query;
-    const {scope, scopeName, env, hostname, ip} = query;
+    const {scope, scopeName, env, hostname, ip, version, pid} = query;
     const startTime = parseInt(query.startTime, 10);
     const endTime = parseInt(query.endTime, 10);
     const metricsNames: MetricNameJSON[] = MetricsUtils.parseQueryStyleMetricsNames(query.metricsNames);
     const analyseHigherLower = query.analyseHigherLower === 'true' ? true : false;
 
     const data = await this.metricsService.queryMetricsTrend({
-      startTime, endTime, metricsNames, scope, scopeName, env, hostname, ip, analyseHigherLower,
+      startTime, endTime, metricsNames, scope, scopeName, env, hostname, ip, analyseHigherLower, version, pid,
     });
 
     ctx.body = {

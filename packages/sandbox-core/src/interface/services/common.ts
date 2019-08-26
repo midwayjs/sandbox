@@ -314,6 +314,7 @@ export interface OrderByBasicIndicators {
 export interface HostSelector {
   ip?: string;
   hostname?: string;
+  pid?: string;
 }
 
 /**
@@ -346,6 +347,7 @@ export interface AppSelector {
   scopeName: string;
   env?: string;
   scopeId?: string;
+  version?: string;
 }
 
 /**

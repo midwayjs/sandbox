@@ -73,10 +73,10 @@ export class TraceNodeManager {
     return this.instance.query(
       `
       select
-        span_name as spanName,
-        rt,
-        total,
-        if(success > 0, success / total, null) as successRate
+        T1.span_name as spanName,
+        T1.rt,
+        T1.total,
+        if(T1.success > 0, T1.success / T1.total, null) as successRate
       from
         (
           select
@@ -93,7 +93,7 @@ export class TraceNodeManager {
             and span_name!='http'
             and span_name!='hsf-server' ${traceFilter} ${envFilter} ${hostFilter} ${ipFilter}
           group by span_name
-        )
+        ) T1
       `,
       {
         type: QueryTypes.SELECT,
@@ -215,10 +215,10 @@ export class TraceNodeManager {
     return this.instance.query(
       `
       select
-        from_unixtime(m_timestamp) as timestamp,
-        rt,
-        total,
-        if(success > 0, success / total, null) as successRate
+        from_unixtime(T1.m_timestamp) as timestamp,
+        T1.rt,
+        T1.total,
+        if(T1.success > 0, T1.success / T1.total, null) as successRate
       from
         (
           select
@@ -235,9 +235,9 @@ export class TraceNodeManager {
             and span_name=${spanName} ${envFilter} ${hostFilter} ${ipFilter}
           group by
             m_timestamp
-        )
+        ) T1
       where
-        m_timestamp = floor(m_timestamp / ${interval}) * ${interval}
+        T1.m_timestamp = floor(T1.m_timestamp / ${interval}) * ${interval}
       order by timestamp desc
       `,
       {
@@ -349,10 +349,10 @@ export class TraceNodeManager {
     return this.instance.query(
       `
       select
-        from_unixtime(m_timestamp) as timestamp,
-        rt,
-        total,
-        if(success > 0, success / total, null) as successRate
+        from_unixtime(T1.m_timestamp) as timestamp,
+        T1.rt,
+        T1.total,
+        if(T1.success > 0, T1.success / T1.total, null) as successRate
       from
         (
           select
@@ -369,9 +369,9 @@ export class TraceNodeManager {
             and span_target=${spanTarget} ${traceFilter} ${envFilter} ${hostFilter} ${ipFilter}
           group by
             m_timestamp
-        )
+        ) T1
       where
-        m_timestamp=floor(m_timestamp / ${interval}) * ${interval}
+        T1.m_timestamp=floor(T1.m_timestamp / ${interval}) * ${interval}
       order by timestamp desc
       `,
       {
@@ -476,10 +476,10 @@ export class TraceNodeManager {
     return this.instance.query(
       `
       select
-        span_name as spanName,
-        rt,
-        total,
-        if(success > 0, success / total, null) as successRate
+        T1.span_name as spanName,
+        T1.rt,
+        T1.total,
+        if(T1.success > 0, T1.success / T1.total, null) as successRate
       from
         (
           select
@@ -494,8 +494,8 @@ export class TraceNodeManager {
             and scope=${scope}
             and scope_name=${scopeName} ${envFilter} ${hostFilter} ${ipFilter}
           group by span_name
-        )
-      where span_name!='http' and span_name!='hsf-server'
+        ) T1
+      where T1.span_name!='http' and T1.span_name!='hsf-server'
       `,
       {
         type: QueryTypes.SELECT,
@@ -551,11 +551,11 @@ export class TraceNodeManager {
       this.instance.query(
         `
         select
-          from_unixtime(m_timestamp) as timestamp,
-          spanName,
-          rt,
-          total,
-          if(success > 0, success / total, null) as successRate
+          from_unixtime(T1.m_timestamp) as timestamp,
+          T1.spanName,
+          T1.rt,
+          T1.total,
+          if(T1.success > 0, T1.success / T1.total, null) as successRate
         from
           (
             select
@@ -574,9 +574,9 @@ export class TraceNodeManager {
             group by
               m_timestamp,
               span_name
-          )
+          ) T1
         where
-          m_timestamp=floor(m_timestamp / ${interval}) * ${interval}
+          T1.m_timestamp=floor(T1.m_timestamp / ${interval}) * ${interval}
         order by timestamp desc
         `,
         {
