@@ -95,8 +95,16 @@ export class TraceManager {
         ) T1
       `;
 
-    if (options && options.limit !== undefined && options.offset !== undefined && options.order !== undefined) {
-      sql += `order by ${options.order} limit ${options.limit} offset ${options.offset}`;
+    if (options) {
+      if (options.order !== undefined) {
+        sql += `order by ${options.order} `;
+      }
+      if (options.limit !== undefined) {
+        sql += `limit ${options.limit} `;
+      }
+      if (options.offset !== undefined) {
+        sql += `offset ${options.offset} `;
+      }
     } else {
       sql += 'order by total desc limit 500';
     }
