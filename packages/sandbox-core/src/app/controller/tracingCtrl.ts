@@ -1,9 +1,6 @@
-import { get, post, controller, provide, inject, priority } from 'midway-web';
+import { get, post, inject } from 'midway-web';
 import {wrapJson} from '../../core/util/util';
 
-@priority(0)
-@provide()
-@controller('/v2/api/trace/')
 export class TracingCtrl {
 
   @inject('traceService')

@@ -74,15 +74,16 @@ export class TraceNodeManager {
       `
       select
         T1.span_name as spanName,
-        rt,
-        total,
-        success / total as successRate
+        T1.rt,
+        T1.total,
+        if(T1.success > 0, T1.success / T1.total, null) as successRate
       from
         (
           select
             span_name,
             count(1) as total,
-            avg(span_duration) as rt
+            avg(span_duration) as rt,
+            sum(if(span_error=0, 1, 0)) as success
           from
             sandbox_galaxy_sls_trace_nodes
           where
@@ -93,23 +94,6 @@ export class TraceNodeManager {
             and span_name!='hsf-server' ${traceFilter} ${envFilter} ${hostFilter} ${ipFilter}
           group by span_name
         ) T1
-        left join
-        (
-          select
-            span_name,
-            count(1) as success
-          from
-            sandbox_galaxy_sls_trace_nodes
-          where
-            timestamp between ${startTime} and ${endTime}
-            and scope=${scope}
-            and scope_name=${scopeName}
-            and span_error=0
-            and span_name!='http'
-            and span_name!='hsf-server' ${traceFilter} ${envFilter} ${hostFilter} ${ipFilter}
-          group by span_name
-        ) T2
-        on T1.span_name=T2.span_name
       `,
       {
         type: QueryTypes.SELECT,
@@ -232,15 +216,16 @@ export class TraceNodeManager {
       `
       select
         from_unixtime(T1.m_timestamp) as timestamp,
-        rt,
-        total,
-        success / total as successRate
+        T1.rt,
+        T1.total,
+        if(T1.success > 0, T1.success / T1.total, null) as successRate
       from
         (
           select
             floor(${sqlPartTimestampConvertToTs} / 60) * 60 as m_timestamp,
             avg(span_duration) as rt,
-            count(1) as total
+            count(1) as total,
+            sum(if(span_error=0, 1, 0)) as success
           from sandbox_galaxy_sls_trace_nodes
           where
             timestamp between ${startTime} and ${endTime}
@@ -251,23 +236,6 @@ export class TraceNodeManager {
           group by
             m_timestamp
         ) T1
-        left join
-        (
-          select
-            floor(${sqlPartTimestampConvertToTs} / 60) * 60 as m_timestamp,
-            count(1) as success
-          from sandbox_galaxy_sls_trace_nodes
-          where
-            timestamp between ${startTime} and ${endTime}
-            and scope=${scope}
-            and scope_name=${scopeName}
-            and trace_name=${traceName}
-            and span_name=${spanName}
-            and span_error=0 ${envFilter} ${hostFilter} ${ipFilter}
-          group by
-            m_timestamp
-        ) T2
-        on T1.m_timestamp = T2.m_timestamp
       where
         T1.m_timestamp = floor(T1.m_timestamp / ${interval}) * ${interval}
       order by timestamp desc
@@ -330,6 +298,7 @@ export class TraceNodeManager {
         and span_name=${spanName} ${traceFilter} ${envFilter} ${hostFilter} ${ipFilter}
       group by spanTarget
       order by total desc
+      limit 100
       `,
       {
         type: QueryTypes.SELECT,
@@ -381,15 +350,16 @@ export class TraceNodeManager {
       `
       select
         from_unixtime(T1.m_timestamp) as timestamp,
-        rt,
-        total,
-        success / total as successRate
+        T1.rt,
+        T1.total,
+        if(T1.success > 0, T1.success / T1.total, null) as successRate
       from
         (
           select
             floor(${sqlPartTimestampConvertToTs} / 60) * 60 as m_timestamp,
             avg(span_duration) as rt,
-            count(1) as total
+            count(1) as total,
+            sum(if(span_error=0, 1, 0)) as success
           from sandbox_galaxy_sls_trace_nodes
           where
             timestamp between ${startTime} and ${endTime}
@@ -400,23 +370,6 @@ export class TraceNodeManager {
           group by
             m_timestamp
         ) T1
-        left join
-        (
-          select
-            floor(${sqlPartTimestampConvertToTs} / 60) * 60 as m_timestamp,
-            count(1) as success
-          from sandbox_galaxy_sls_trace_nodes
-          where
-            timestamp between ${startTime} and ${endTime}
-            and scope=${scope}
-            and scope_name=${scopeName}
-            and span_name=${spanName}
-            and span_target=${spanTarget}
-            and span_error=0 ${traceFilter} ${envFilter} ${hostFilter} ${ipFilter}
-          group by
-            m_timestamp
-        ) T2
-        on T1.m_timestamp = T2.m_timestamp
       where
         T1.m_timestamp=floor(T1.m_timestamp / ${interval}) * ${interval}
       order by timestamp desc
@@ -490,6 +443,7 @@ export class TraceNodeManager {
       }
     }
 
+    condition.limit = condition.limit ? Math.min(condition.limit, 500) : 500;
     return this.list(condition);
   }
 
@@ -523,15 +477,16 @@ export class TraceNodeManager {
       `
       select
         T1.span_name as spanName,
-        rt,
-        total,
-        success / total as successRate
+        T1.rt,
+        T1.total,
+        if(T1.success > 0, T1.success / T1.total, null) as successRate
       from
         (
           select
             span_name,
             count(1) as total,
-            avg(span_duration) as rt
+            avg(span_duration) as rt,
+            sum(if(span_error=0, 1, 0)) as success
           from
             sandbox_galaxy_sls_trace_nodes
           where
@@ -540,21 +495,6 @@ export class TraceNodeManager {
             and scope_name=${scopeName} ${envFilter} ${hostFilter} ${ipFilter}
           group by span_name
         ) T1
-        left join
-        (
-          select
-            span_name,
-            count(1) as success
-          from
-            sandbox_galaxy_sls_trace_nodes
-          where
-            timestamp between ${startTime} and ${endTime}
-            and scope=${scope}
-            and scope_name=${scopeName}
-            and span_error=0 ${envFilter} ${hostFilter} ${ipFilter}
-          group by span_name
-        ) T2
-        on T1.span_name=T2.span_name
       where T1.span_name!='http' and T1.span_name!='hsf-server'
       `,
       {
@@ -613,16 +553,17 @@ export class TraceNodeManager {
         select
           from_unixtime(T1.m_timestamp) as timestamp,
           T1.spanName,
-          rt,
-          total,
-          success / total as successRate
+          T1.rt,
+          T1.total,
+          if(T1.success > 0, T1.success / T1.total, null) as successRate
         from
           (
             select
               floor(${sqlPartTimestampConvertToTs} / 60) * 60 as m_timestamp,
               span_name as spanName,
               avg(span_duration) as rt,
-              count(1) as total
+              count(1) as total,
+              sum(if(span_error=0, 1, 0)) as success
             from sandbox_galaxy_sls_trace_nodes
             where
               timestamp between ${startTime} and ${endTime}
@@ -634,25 +575,6 @@ export class TraceNodeManager {
               m_timestamp,
               span_name
           ) T1
-          left join
-          (
-            select
-              floor(${sqlPartTimestampConvertToTs} / 60) * 60 as m_timestamp,
-              span_name as spanName,
-              count(1) as success
-            from sandbox_galaxy_sls_trace_nodes
-            where
-              timestamp between ${startTime} and ${endTime}
-              and scope=${scope}
-              and scope_name=${scopeName}
-              and span_error=0
-              and span_name!='http'
-              and span_name!='hsf-server' ${traceFilter} ${envFilter} ${hostFilter} ${ipFilter}
-            group by
-              m_timestamp,
-              span_name
-          ) T2
-          on T1.m_timestamp = T2.m_timestamp and T1.spanName = T2.spanName
         where
           T1.m_timestamp=floor(T1.m_timestamp / ${interval}) * ${interval}
         order by timestamp desc

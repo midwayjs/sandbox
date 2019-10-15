@@ -1,10 +1,7 @@
-import { controller, logger, get, provide, priority } from 'midway-web';
+import { logger, get } from 'midway-web';
 
 const PAGE_TITLE: string = 'Midway-Sandbox';
 
-@priority(-10)
-@provide()
-@controller('/')
 export class Page {
 
   @logger()

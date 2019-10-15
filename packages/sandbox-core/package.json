@@ -11,7 +11,7 @@
     "midway-web": "latest",
     "moment": "^2.22.2",
     "mysql2": "^1.5.3",
-    "sequelize": "^5.8.8",
+    "sequelize": "^5.8.0",
     "urllib": "^2.29.0",
     "ws": "^7.0.0"
   },

@@ -1,11 +1,8 @@
-import { inject, get, controller, provide, priority } from 'midway-web';
+import { inject, get } from 'midway-web';
 
 import {MetricsUtils} from '../util/metricsUtils';
 import {MetricNameJSON} from '../../interface/services/common';
 
-@priority(0)
-@provide()
-@controller('/v2/api/metrics/')
 export class MetricsCtrl {
 
   @inject('metricsService')
@@ -63,14 +60,14 @@ export class MetricsCtrl {
   async queryMetricsTrend(ctx) {
 
     const query = ctx.query;
-    const {scope, scopeName, env, hostname, ip} = query;
+    const {scope, scopeName, env, hostname, ip, version, pid} = query;
     const startTime = parseInt(query.startTime, 10);
     const endTime = parseInt(query.endTime, 10);
     const metricsNames: MetricNameJSON[] = MetricsUtils.parseQueryStyleMetricsNames(query.metricsNames);
     const analyseHigherLower = query.analyseHigherLower === 'true' ? true : false;
 
     const data = await this.metricsService.queryMetricsTrend({
-      startTime, endTime, metricsNames, scope, scopeName, env, hostname, ip, analyseHigherLower,
+      startTime, endTime, metricsNames, scope, scopeName, env, hostname, ip, analyseHigherLower, version, pid,
     });
 
     ctx.body = {
