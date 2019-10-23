@@ -17,7 +17,7 @@ export class TSDB {
   };
   defaultPOSTOpts = {
     msResolution: true,
-    showQuery: true,
+    showQuery: false,
   };
 
   protected host: string;
@@ -45,6 +45,7 @@ export class TSDB {
         end: queryOptions.end,
         queries: queryOptions.queries,
       },
+      baseOpts: queryOptions.baseOpts,
     });
     if (resp.status !== 200) {
       if (resp.data && resp.data.error) {
@@ -72,6 +73,7 @@ export class TSDB {
       ...opts,
       data: {
         ...this.defaultPOSTOpts,
+        ...opts.baseOpts,
         ...opts.data,
       },
     });
