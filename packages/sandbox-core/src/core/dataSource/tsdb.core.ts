@@ -37,6 +37,11 @@ export interface QueryOptions {
   start: string | number;
   end?: string | number;
   queries: QueryJSON[];
+  baseOpts?: {
+    skipDps?: boolean;
+    showQuery?: boolean;
+    msResolution?: boolean;
+  };
 }
 
 export interface QueryResultItem {
