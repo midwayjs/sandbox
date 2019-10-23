@@ -53,6 +53,7 @@ export class MetricsService implements IMetricsService {
       start: '6m-ago',
       end: '1m-ago',
       queries,
+      baseOpts: { showQuery: true },
     });
 
     const latestMap: Map<string, number> = new Map();
@@ -102,6 +103,7 @@ export class MetricsService implements IMetricsService {
       start: startTime,
       end: endTime,
       queries,
+      baseOpts: { showQuery: true },
     });
 
     if (batchQuery.error) {
