@@ -8,7 +8,7 @@ import {IRemoteDebugService} from '../../interface/services/IRemoteDebugService'
 export class RemoteDebugService implements IRemoteDebugService {
 
   @inject('pandoraAdapter')
-  protected pandoraAdapter: PandoraAdapter;
+  pandoraAdapter: PandoraAdapter;
 
   async getDebuggableHost(options: HostSelector & AppSelector & UserSelector): Promise<DebuggableHost> {
     const {uid} = options;
