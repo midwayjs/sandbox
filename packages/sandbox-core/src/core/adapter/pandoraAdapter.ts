@@ -43,7 +43,7 @@ export class PandoraAdapter implements IPandoraAdapter {
 
     if (debuggableProcesses[0].v >= 2) {
       await Promise.all(debuggableProcesses.map((process) => {
-        return this.invokeRestful(scopeInfo, `/remote-debug/open-port?pid=${process.pid}`);
+        return this.invokeRestful(scopeInfo, `/remote-debug/open-port?pid=${process.pid}`, options);
       }));
       debuggableProcesses = await this.getProcessesInfo(scopeName, ip, options);
       for (const process of debuggableProcesses) {
