@@ -1,6 +1,6 @@
 {
   "name": "sandbox-core",
-  "version": "0.0.29-beta.2",
+  "version": "0.0.29-beta.5",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "dependencies": {
