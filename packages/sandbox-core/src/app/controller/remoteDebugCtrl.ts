@@ -1,11 +1,11 @@
 import { get, inject } from 'midway-web';
-import { RemoteDebugService } from '../../core/service/remoteDebugService';
+import { IRemoteDebugService } from '../../interface/services/IRemoteDebugService';
 import { IPrivilegeAdapter } from '../../interface/adapter/IPrivilegeAdapter';
 
 export class RemoteDebugCtrl {
 
   @inject('remoteDebugService')
-  remoteDebugService: RemoteDebugService;
+  remoteDebugService: IRemoteDebugService;
 
   @inject('privilegeAdapter')
   protected privilegeAdapter: IPrivilegeAdapter;

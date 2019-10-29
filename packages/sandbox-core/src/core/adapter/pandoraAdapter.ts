@@ -14,11 +14,11 @@ export class PandoraAdapter implements IPandoraAdapter {
   @config('pandora')
   protected config;
 
-  async invokeRestful(host: HostSelector, url) {
+  async invokeRestful(host: HostSelector, url: string, options?: any) {
     const pandoraRestfulPort = this.config.restfulPort;
     url = url.replace(/^\//, '');
     const cmd = `curl http://127.0.0.1:${pandoraRestfulPort}/${url} 2>/dev/null`;
-    const res = await this.remoteExecuteAdapter.exec(host, cmd).catch((err) => {
+    const res = await this.remoteExecuteAdapter.exec(host, cmd, options).catch((err) => {
       if (err.message === 'CALL_ERROR: exit 7') {
         err.message = '请求 Pandora 失败，请确保 pandora agent 已正常启动';
       }
@@ -27,8 +27,8 @@ export class PandoraAdapter implements IPandoraAdapter {
     return JSON.parse(res);
   }
 
-  async getProcessesInfo(scopeName: string, ip: string): Promise<any[]> {
-    const result = await this.invokeRestful({ ip }, `/process?appName=${scopeName}`);
+  async getProcessesInfo(scopeName: string, ip: string, options?: any): Promise<any[]> {
+    const result = await this.invokeRestful({ ip }, `/process?appName=${scopeName}`, options);
     const processes = result.data;
     if (!processes || !Array.isArray(processes) || processes.length < 1) {
       throw new Error('获取 Debug 进程列表失败: ' + JSON.stringify(result));
@@ -36,16 +36,16 @@ export class PandoraAdapter implements IPandoraAdapter {
     return processes;
   }
 
-  async getDebuggableProcesses(options: HostSelector & AppSelector) {
+  async getDebuggableProcesses(scopeInfo: HostSelector & AppSelector, options?: any) {
 
-    const { scopeName, ip } = options;
-    let debuggableProcesses = await this.getProcessesInfo(scopeName, ip);
+    const { scopeName, ip } = scopeInfo;
+    let debuggableProcesses = await this.getProcessesInfo(scopeName, ip, options);
 
     if (debuggableProcesses[0].v >= 2) {
       await Promise.all(debuggableProcesses.map((process) => {
-        return this.invokeRestful(options, `/remote-debug/open-port?pid=${process.pid}`);
+        return this.invokeRestful(scopeInfo, `/remote-debug/open-port?pid=${process.pid}`, options);
       }));
-      debuggableProcesses = await this.getProcessesInfo(scopeName, ip);
+      debuggableProcesses = await this.getProcessesInfo(scopeName, ip, options);
       for (const process of debuggableProcesses) {
         process.debugPort = process.inspectorUrl ? urlparse(process.inspectorUrl).port : null;
       }
@@ -56,7 +56,7 @@ export class PandoraAdapter implements IPandoraAdapter {
         return null;
       }
       const cmd = `curl http://127.0.0.1:${process.debugPort}/json/list 2>/dev/null`;
-      return this.remoteExecuteAdapter.exec(options, cmd)
+      return this.remoteExecuteAdapter.exec(scopeInfo, cmd, options)
         .then((jobResRaw) => {
           let listRes;
           try {
@@ -77,9 +77,9 @@ export class PandoraAdapter implements IPandoraAdapter {
     return Promise.all(tasks) as any;
   }
 
-  async getInspectorState(options: HostSelector & AppSelector): Promise<{ v: number, opened: boolean }> {
-    const url = `/process?appName=${options.scopeName}`;
-    const debuggableProcesses = (await this.invokeRestful(options, url)).data;
+  async getInspectorState(scopeInfo: HostSelector & AppSelector, options?: any): Promise<{ v: number, opened: boolean }> {
+    const url = `/process?appName=${scopeInfo.scopeName}`;
+    const debuggableProcesses = (await this.invokeRestful(scopeInfo, url, options)).data;
     if (debuggableProcesses[0].v >= 2) {
       const opened = debuggableProcesses.some((proc) => proc.inspectorUrl);
       return { v: debuggableProcesses[0].v, opened };
@@ -88,17 +88,17 @@ export class PandoraAdapter implements IPandoraAdapter {
     }
   }
 
-  async closeDebugPortByHost(options: HostSelector & AppSelector): Promise<{ v: number, opened: boolean }> {
-    const url = `/process?appName=${options.scopeName}`;
-    const debuggableProcesses = (await this.invokeRestful(options, url)).data;
+  async closeDebugPortByHost(scopeInfo: HostSelector & AppSelector, options?: any): Promise<{ v: number, opened: boolean }> {
+    const url = `/process?appName=${scopeInfo.scopeName}`;
+    const debuggableProcesses = (await this.invokeRestful(scopeInfo, url, options)).data;
 
     if (debuggableProcesses[0].v >= 2) {
       await Promise.all(debuggableProcesses.map((process) => {
-        return this.invokeRestful(options, `/remote-debug/close-port?pid=${process.pid}`);
+        return this.invokeRestful(scopeInfo, `/remote-debug/close-port?pid=${process.pid}`, options);
       }));
     }
 
-    return this.getInspectorState(options);
+    return this.getInspectorState(scopeInfo, options);
   }
 
 }

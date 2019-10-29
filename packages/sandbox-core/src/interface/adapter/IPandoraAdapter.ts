@@ -1,7 +1,9 @@
 import {AppSelector, HostSelector} from '../services/common';
 
 export interface IPandoraAdapter {
-  // TODO: 补全类型信息
-  getDebuggableProcesses(options: HostSelector & AppSelector): Promise<any[]>;
-  invokeRestful(host: HostSelector, url): Promise<string>;
+  invokeRestful(host: HostSelector, url: string, options?: any);
+  getProcessesInfo(scopeName: string, ip: string, options?: any): Promise<any[]>;
+  getDebuggableProcesses(scopeInfo: HostSelector & AppSelector, options?: any);
+  getInspectorState(scopeInfo: HostSelector & AppSelector, options?: any): Promise<{ v: number, opened: boolean }>;
+  closeDebugPortByHost(scopeInfo: HostSelector & AppSelector, options?: any): Promise<{ v: number, opened: boolean }>;
 }
