@@ -1,11 +1,9 @@
-import { inject, provide, scope, ScopeEnum, config } from 'midway-web';
+import { inject, config } from 'midway-web';
 import {AppSelector, HostSelector} from '../../interface/services/common';
 import {IPandoraAdapter} from '../../interface/adapter/IPandoraAdapter';
 import {IRemoteExecuteAdapter} from '../../interface/adapter/IRemoteExecuteAdapter';
 import {parse as urlparse} from 'url';
 
-@scope(ScopeEnum.Singleton)
-@provide('pandoraAdapter')
 export class PandoraAdapter implements IPandoraAdapter {
 
   @inject('remoteExecuteAdapter')
