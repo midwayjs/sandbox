@@ -1,10 +1,8 @@
 import {QueryError, QueryOptions, QueryResultItem, SuggestOptions} from './tsdb.core';
 import urllib = require('urllib');
 import querystring = require('querystring');
-import { provide, config, logger, init, scope, ScopeEnum } from 'midway-web';
+import { config, logger, init } from 'midway-web';
 
-@scope(ScopeEnum.Singleton)
-@provide('tsdb')
 export class TSDB {
 
   @config('tsdb')
