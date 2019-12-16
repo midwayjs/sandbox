@@ -26,7 +26,7 @@ export class PandoraAdapter implements IPandoraAdapter {
   }
 
   async getProcessesInfo(scopeName: string, ip: string, options?: any): Promise<any[]> {
-    const result = await this.invokeRestful({ ip }, `/process?appName=${scopeName}`, options);
+    const result = await this.invokeRestful({ ip }, `/process`, options);
     const processes = result.data;
     if (!processes || !Array.isArray(processes) || processes.length < 1) {
       throw new Error('获取 Debug 进程列表失败: ' + JSON.stringify(result));
@@ -76,7 +76,7 @@ export class PandoraAdapter implements IPandoraAdapter {
   }
 
   async getInspectorState(scopeInfo: HostSelector & AppSelector, options?: any): Promise<{ v: number, opened: boolean }> {
-    const url = `/process?appName=${scopeInfo.scopeName}`;
+    const url = `/process`;
     const debuggableProcesses = (await this.invokeRestful(scopeInfo, url, options)).data;
     if (debuggableProcesses[0].v >= 2) {
       const opened = debuggableProcesses.some((proc) => proc.inspectorUrl);
@@ -87,7 +87,7 @@ export class PandoraAdapter implements IPandoraAdapter {
   }
 
   async closeDebugPortByHost(scopeInfo: HostSelector & AppSelector, options?: any): Promise<{ v: number, opened: boolean }> {
-    const url = `/process?appName=${scopeInfo.scopeName}`;
+    const url = `/process`;
     const debuggableProcesses = (await this.invokeRestful(scopeInfo, url, options)).data;
 
     if (debuggableProcesses[0].v >= 2) {
