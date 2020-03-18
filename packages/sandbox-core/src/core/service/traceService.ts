@@ -189,13 +189,6 @@ export class TraceService {
       let endTime = options.endTime || moment();
       let startTime = options.startTime || moment(endTime).subtract(defaultDuration, 'minutes');
 
-      startTime = toMoment(startTime);
-      endTime = toMoment(endTime);
-
-      if (endTime.diff(startTime, 'hours') >= 24) {
-        endTime = startTime.clone().subtract(24, 'hours');
-      }
-
       options.startTime = timeFormat(startTime);
       options.endTime = timeFormat(endTime);
     }
