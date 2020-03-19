@@ -8,7 +8,7 @@
     "glob": "^7.1.2",
     "lodash": "^4.17.10",
     "md5": "^2.2.1",
-    "midway-web": "latest",
+    "midway-web": "^1.18.1",
     "moment": "^2.22.2",
     "mysql2": "^1.5.3",
     "sequelize": "^5.8.0",
