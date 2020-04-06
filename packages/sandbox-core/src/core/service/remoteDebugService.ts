@@ -1,14 +1,14 @@
 import { inject, provide } from 'midway-web';
 import { DebuggableHost, HostSelector, AppSelector, UserSelector } from '../../interface/services/common';
-import {PandoraAdapter} from '../adapter/pandoraAdapter';
-import {Cipher} from '../debugServer/cipher';
-import {IRemoteDebugService} from '../../interface/services/IRemoteDebugService';
+import { IPandoraAdapter } from '../../interface/adapter/IPandoraAdapter';
+import { Cipher } from '../debugServer/cipher';
+import { IRemoteDebugService } from '../../interface/services/IRemoteDebugService';
 
 @provide('remoteDebugService')
 export class RemoteDebugService implements IRemoteDebugService {
 
   @inject('pandoraAdapter')
-  protected pandoraAdapter: PandoraAdapter;
+  protected pandoraAdapter: IPandoraAdapter;
 
   async getDebuggableHost(options: HostSelector & AppSelector & UserSelector): Promise<DebuggableHost> {
     const {uid} = options;
